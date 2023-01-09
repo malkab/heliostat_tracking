@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+build/
+.vscode/
+test/vc140.pdb
+googletest/
