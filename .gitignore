@@ -33,5 +33,5 @@
 
 build/
 .vscode/
-test/vc140.pdb
+test/
 googletest/
