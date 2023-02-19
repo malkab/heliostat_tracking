@@ -39,7 +39,7 @@ void TwoReceiversAnalysis()
     double latitude_degree = 30.0; // Degrees North
     double tower_height = 50.0; // Meters
     double receiver_radius = 5.0; // Meters 
-    double maximum_heliostat_field_area = 300000; // Square meters
+    double maximum_heliostat_field_area = 2500000.0; // Square meters
     double characteristic_length = sqrt(maximum_heliostat_field_area);
     
     // Environment
@@ -57,8 +57,8 @@ void TwoReceiversAnalysis()
     std::cout << std::endl << "Boundaries: " << "( (" << xmin << ", " << xmax << "), (" << ymin << ", " << ymax << ") )" << std::endl;
 
     // Grid
-    int nrows = 60;
-    int ncolumns = 60;
+    int nrows = 1000;
+    int ncolumns = 1000;
 
     // Analysis parameters       
     double delta_t = 225.;
@@ -71,7 +71,7 @@ void TwoReceiversAnalysis()
     int total_number_of_heliostats = nrows * ncolumns;
     int maximum_number_of_valid_heliostats = maximum_heliostat_field_area / heliostat_area;
 
-    for( double factor = 0.1; factor < 3.0; factor += 0.1  )
+    for( double factor = 0.1; factor < 3.0; factor += 0.01  )
     {
         // Modify distance between receivers
         double distance_between_receivers =  factor * characteristic_length;
@@ -103,7 +103,7 @@ void TwoReceiversAnalysis()
 
         // Build filename
         std::string filename="Efficiency-Cosine_Attenuation_";
-        filename.append("LA-").append(std::to_string((int) latitude_degree)).append("_");
+        filename.append("LA-").append(std::to_string((int) latitude_degree)).append("_");    
         filename.append("TH-").append(std::to_string((int) tower_height)).append("_");
         filename.append("RR-").append(std::to_string((int) receiver_radius)).append("_");
         filename.append("RD-").append(std::to_string((int) distance_between_receivers)).append("_");    
