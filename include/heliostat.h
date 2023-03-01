@@ -3,8 +3,7 @@
 
 #include <vector>
 
-#include "environment.h"
-#include "receiver.h"
+#include "scenario.h"
 #include "vec3d.h"
 
 namespace hypl
@@ -21,11 +20,10 @@ namespace hypl
             int aiming_at_receiver_id;
         };
 
-        Heliostat(Environment& environment, std::vector<Receiver>& receivers, vec3d center);
+        Heliostat(Scenario& scenario, vec3d center);
 
         //Accessors
-        Environment const& environment() const { return m_environment; }
-        std::vector<Receiver> const& receivers() const { return m_receivers; }
+        Scenario const& scenario() const { return m_scenario; }
         vec3d const& center() const { return m_center; }
         std::vector<double> const& transmittance() const { return m_transmittance; }
         std::vector<double> const& slant_range() const { return m_slant_range; }
@@ -43,8 +41,7 @@ namespace hypl
         double m_annual_ideal_efficiency;
 
     private:
-        Environment& m_environment;
-        std::vector<Receiver>& m_receivers;
+        Scenario& m_scenario;
         vec3d m_center;
 
         std::vector<double> m_transmittance;

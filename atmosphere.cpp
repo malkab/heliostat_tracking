@@ -1,23 +1,25 @@
 #include <math.h>
 #include "atmosphere.h"
 
-double hypl::Atmosphere::Transmittance(double slant_range) const
+void hypl::Atmosphere::AssignTransmittanceFunction(TransmittanceModel transmittance_model)
 {
     switch ( m_transmittance_model )
     {
         case TransmittanceModel::SW:
-            return TransmittanceSW(slant_range);
+            m_ptrTransmittanceFunction = &Atmosphere::TransmittanceSW;
             break;
         case TransmittanceModel::VB:
-            return TransmittanceVB(slant_range);
+             m_ptrTransmittanceFunction = &Atmosphere::TransmittanceVB;
             break;
         case TransmittanceModel::LH:
-            return TransmittanceLH(slant_range);
+            m_ptrTransmittanceFunction = &Atmosphere::TransmittanceLH;
             break;
-        default:
-            return -1.0;
-            break;
-    }
+    }    
+}
+
+double hypl::Atmosphere::Transmittance(double slant_range) const
+{
+    return ((*this).*m_ptrTransmittanceFunction)(slant_range);
 }
 
 double hypl::Atmosphere::TransmittanceSW(double slant_range) const

@@ -11,7 +11,7 @@ set(Headers
     ./include/atmosphere.h
     ./include/auxfunction.h
     ./include/boundaries.h 
-    ./include/environment.h 
+    ./include/scenario.h 
     ./include/heliostat.h 
     ./include/processheliostatfunctor.h
     ./include/idealefficiencymap.h 
@@ -26,7 +26,7 @@ set(Sources
     main.cpp
     atmosphere.cpp 
     auxfunction.cpp 
-    environment.cpp 
+    scenario.cpp 
     heliostat.cpp
     processheliostatfunctor.cpp
     idealefficiencymap.cpp     

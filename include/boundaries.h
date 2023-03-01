@@ -30,6 +30,9 @@ namespace hypl
         void set_ymin(double ymin) {m_ymin = ymin;}
         void set_ymax(double ymax) {m_ymax = ymax;}
 
+        //Functions
+        double area() const {return (m_xmax-m_xmin)*(m_ymax-m_ymin);}   
+
     private:
         double m_xmin;
         double m_xmax;

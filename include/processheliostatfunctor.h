@@ -1,7 +1,6 @@
 #ifndef PROCESSHELISTATFUNCTOR_H
 #define PROCESSHELISTATFUNCTOR_H
 
-#include "environment.h"
 #include "heliostat.h"
 
 namespace hypl

@@ -3,9 +3,7 @@
 
 #include <vector>
 
-#include "environment.h"
-#include "boundaries.h"
-#include "receiver.h"
+#include "scenario.h"
 #include "heliostat.h"
 
 namespace hypl
@@ -14,12 +12,10 @@ namespace hypl
     {
     public:
 
-        IdealEfficiencyMap(Environment environment, Boundaries boundaries, std::vector<Receiver>& receivers, int nrows, int ncolumns);
+        IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns);
 
         //Accessors
-        Environment const& environment() const {return m_environment;}
-        Boundaries const& boundaries() const {return m_boundaries;}
-        std::vector<Receiver> const& receivers() const {return m_receiver;}
+        Scenario const& scenario() const {return m_scenario;}
         int const& nrows() const {return m_nrows;}
         int const& ncolumns() const {return m_ncolumns;}
         std::vector<Heliostat> const& heliostats() {return m_heliostat;}
@@ -27,10 +23,7 @@ namespace hypl
         //Mutators
         void update();
         void regenerate();
-        void set_environment(Environment environment) {m_environment = environment; update();}
-        void set_boundaries(Boundaries boundaries) {m_boundaries = boundaries; regenerate();}
-        void set_receivers(std::vector<Receiver> receivers) {m_receiver = receivers; update();}
-        void set_receivers_radius(double radius);
+        void set_scenario(Scenario const& scenario) {m_scenario = scenario; update();}
         void set_nrows(int nrows) {m_nrows = nrows; regenerate();}
         void set_ncolumns(int ncolumns) {m_ncolumns = ncolumns; regenerate();}
         void set_dimensions(int nrows, int ncolumns) {m_nrows = nrows; m_ncolumns = ncolumns; regenerate();}
@@ -44,9 +37,7 @@ namespace hypl
         double StartingHourAngle(double const& wo, double const& delta_hour_angle);
 
     private:
-        Environment m_environment;
-        Boundaries m_boundaries;
-        std::vector<Receiver>& m_receiver;
+        Scenario& m_scenario;
         int m_nrows;
         int m_ncolumns;
         std::vector<Heliostat> m_heliostat;

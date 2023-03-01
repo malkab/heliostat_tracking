@@ -5,14 +5,12 @@
 
 #include "idealefficiencymap.h"
 #include "auxfunction.h"
+#include "scenario.h"
 #include "processheliostatfunctor.h"
 
 
-hypl::IdealEfficiencyMap::IdealEfficiencyMap(Environment environment, Boundaries boundaries, 
-                                            std::vector<Receiver>& receivers, int nrows, int ncolumns) :
-m_environment {environment},
-m_boundaries {boundaries},
-m_receiver {receivers},
+hypl::IdealEfficiencyMap::IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns) :
+m_scenario {scenario},
 m_nrows {nrows},
 m_ncolumns {ncolumns}
 {
@@ -23,17 +21,17 @@ void hypl::IdealEfficiencyMap::regenerate()
 {
     if( m_heliostat.empty() == false ) m_heliostat.clear();
 
-    double dx = (m_boundaries.xmax() - m_boundaries.xmin())/m_ncolumns;
-    double dy = (m_boundaries.ymax() - m_boundaries.ymin())/m_nrows;
+    double dx = (m_scenario.boundaries().xmax() - m_scenario.boundaries().xmin())/m_ncolumns;
+    double dy = (m_scenario.boundaries().ymax() - m_scenario.boundaries().ymin())/m_nrows;
 
     for(int row=0; row < m_nrows; row++ )
     {
-        double y = m_boundaries.ymin() + dy * (0.5 + row);
+        double y = m_scenario.boundaries().ymin() + dy * (0.5 + row);
         for(int column=0; column < m_ncolumns; column++)
         {
-            double x = m_boundaries.xmin() + dx * (0.5 + column);
+            double x = m_scenario.boundaries().xmin() + dx * (0.5 + column);
             hypl::vec3d heliostat_center(x, y, 0.0);
-            m_heliostat.emplace_back(m_environment, m_receiver, heliostat_center);
+            m_heliostat.emplace_back(m_scenario, heliostat_center);
         }
     }
     m_heliostat.shrink_to_fit();
@@ -42,11 +40,6 @@ void hypl::IdealEfficiencyMap::regenerate()
 void hypl::IdealEfficiencyMap::update()
 {
     for (auto & element : m_heliostat) element.update ();
-}
-
-void hypl::IdealEfficiencyMap::set_receivers_radius(double radius)
-{
-    for (auto & element : m_receiver) element.set_radius (radius);
 }
 
 void hypl::IdealEfficiencyMap::EvaluateAnnualEfficiencies(Heliostat::IdealEfficiencyType ideal_efficiency_type, double delta_t)
@@ -82,14 +75,14 @@ void hypl::IdealEfficiencyMap::EvaluateAnnualEfficiencies(Heliostat::IdealEffici
 void hypl::IdealEfficiencyMap::ProcessDay(int const& day_number, Heliostat::IdealEfficiencyType const& ideal_efficiency_type, 
                                           double const& delta_hour_angle, double const& weight, double& direct_insolation)
 {
-    double declination = auxfunction::SolarDeclinationByDayNumber(day_number);
-    double sun_subtended_angle = m_environment.sun_subtended_angle()[day_number-1];
-    double wo = m_environment.location().HourAngleLimit(declination);
+    double declination = m_scenario.declinations()[day_number-1];
+    double sun_subtended_angle = m_scenario.sun_subtended_angles()[day_number-1];
+    double wo = m_scenario.location().HourAngleLimit(declination);
     double hour_angle = StartingHourAngle(wo, delta_hour_angle);
     while (hour_angle < wo)
     {
-        vec3d sun_vector = m_environment.location().SolarVector(hour_angle, declination);
-        double dni = weight * m_environment.atmosphere().DniFromSz(sun_vector.z);
+        vec3d sun_vector = m_scenario.location().SolarVector(hour_angle, declination);
+        double dni = weight * m_scenario.atmosphere().DniFromSz(sun_vector.z);
         ProcessHeliostatFunctor process_heliostat(sun_vector, sun_subtended_angle, ideal_efficiency_type, dni);
         
         direct_insolation += dni;
