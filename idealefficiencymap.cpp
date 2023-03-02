@@ -9,10 +9,11 @@
 #include "processheliostatfunctor.h"
 
 
-hypl::IdealEfficiencyMap::IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns) :
+hypl::IdealEfficiencyMap::IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns, Heliostat::IdealEfficiencyType ideal_efficiency_type) :
 m_scenario {scenario},
 m_nrows {nrows},
-m_ncolumns {ncolumns}
+m_ncolumns {ncolumns},
+m_ideal_efficiency_type {ideal_efficiency_type}
 {
     regenerate();
 }
@@ -31,7 +32,7 @@ void hypl::IdealEfficiencyMap::regenerate()
         {
             double x = m_scenario.boundaries().xmin() + dx * (0.5 + column);
             hypl::vec3d heliostat_center(x, y, 0.0);
-            m_heliostat.emplace_back(m_scenario, heliostat_center);
+            m_heliostat.emplace_back(m_scenario, heliostat_center, m_ideal_efficiency_type);
         }
     }
     m_heliostat.shrink_to_fit();

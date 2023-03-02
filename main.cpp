@@ -84,7 +84,7 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
     auto start = std::chrono::high_resolution_clock::now();
 
     // Compute annual optical efficiencies of ideal heliostats
-    hypl::IdealEfficiencyMap ideal_efficiency_map(scenario, nrows, ncolumns); 
+    hypl::IdealEfficiencyMap ideal_efficiency_map(scenario, nrows, ncolumns, ideal_efficiency_type); 
     ideal_efficiency_map.EvaluateAnnualEfficiencies(ideal_efficiency_type, delta_t);
 
     // Copy annual heliostats' annual ideal efficiencies (aie) to a vector of doubles

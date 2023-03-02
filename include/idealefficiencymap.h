@@ -12,7 +12,7 @@ namespace hypl
     {
     public:
 
-        IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns);
+        IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns,  Heliostat::IdealEfficiencyType ideal_efficiency_type);
 
         //Accessors
         Scenario const& scenario() const {return m_scenario;}
@@ -29,7 +29,7 @@ namespace hypl
         void set_dimensions(int nrows, int ncolumns) {m_nrows = nrows; m_ncolumns = ncolumns; regenerate();}
 
         //Public functions
-        void EvaluateAnnualEfficiencies(hypl::Heliostat::IdealEfficiencyType ideal_efficiency_type, double delta_t);
+        void EvaluateAnnualEfficiencies(Heliostat::IdealEfficiencyType ideal_efficiency_type, double delta_t);
 
     private:
         void ProcessDay(int const& day_number, Heliostat::IdealEfficiencyType const& ideal_efficiency_type, 
@@ -40,6 +40,7 @@ namespace hypl
         Scenario& m_scenario;
         int m_nrows;
         int m_ncolumns;
+        Heliostat::IdealEfficiencyType m_ideal_efficiency_type;
         std::vector<Heliostat> m_heliostat;
     };
 }
