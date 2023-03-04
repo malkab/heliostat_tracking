@@ -8,23 +8,25 @@ include_directories(./include)
 set(-DCMAKE_PREFIX_PATH="/opt/homebrew/lib")
 
 set(Headers 
-    ./include/atmosphere.h
+    ./include/atmosphere.h 
+    ./include/atmosphereLH.h 
+    ./include/atmosphereSW.h 
+    ./include/atmosphereVB.h  
     ./include/auxfunction.h
     ./include/boundaries.h 
-    ./include/scenario.h 
     ./include/heliostat.h 
-    ./include/processheliostatfunctor.h
     ./include/idealefficiencymap.h 
     ./include/location.h 
-    ./include/mathconstants.h 
-    ./include/receiver.h 
+    ./include/mathconstants.h
+    ./include/processheliostatfunctor.h    
+    ./include/receiver.h
+    ./include/scenario.h
     ./include/vec2d.h 
     ./include/vec3d.h
 )
 
 set(Sources
     main.cpp
-    atmosphere.cpp 
     auxfunction.cpp 
     scenario.cpp 
     heliostat.cpp

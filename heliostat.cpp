@@ -28,7 +28,7 @@ void hypl::Heliostat::update()
         double slant_range = aux_vector3d.norm();
         m_slant_range.emplace_back(slant_range);
         m_reflected_unit_vector.emplace_back(aux_vector3d.normalized());
-        m_transmittance.emplace_back(m_scenario.atmosphere().Transmittance(slant_range));
+        m_transmittance.emplace_back(m_scenario.atmosphere()->Transmittance(slant_range));
     }
 
     m_annual_ideal_efficiency = 0.0;

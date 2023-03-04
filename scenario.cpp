@@ -6,7 +6,7 @@ hypl::Scenario::Scenario()
     update_scenario();
 }
 
-hypl::Scenario::Scenario( Location location, Atmosphere atmosphere, Boundaries boundaries, std::vector<Receiver> receivers) :
+hypl::Scenario::Scenario( Location location, Atmosphere* atmosphere, Boundaries boundaries, std::vector<Receiver> receivers) :
 m_location {location},
 m_atmosphere {atmosphere},
 m_boundaries {boundaries},

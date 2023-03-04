@@ -11,7 +11,7 @@
 #include <execution>
 
 #include "location.h"
-#include "atmosphere.h"
+#include "atmosphereVB.h"
 #include "receiver.h"
 #include "vec3d.h"
 #include "boundaries.h"
@@ -54,7 +54,7 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
 
     // Environment
     hypl::Location location(latitude_degree * hypl::mathconstants::degree);
-    hypl::Atmosphere atmosphere; // Using default attenuation model
+    hypl::AtmosphereVB *ptr_atmosphere = new hypl::AtmosphereVB(); // Using default attenuation model
 
     // Boundaries
     double characteristic_length = sqrt(maximum_heliostat_field_area);
@@ -77,7 +77,7 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
     receivers.push_back(hypl::Receiver(hypl::vec3d( distance_between_receivers/2.0, 0.0, tower_height), receiver_radius));   
 
     // Scenario
-    hypl::Scenario scenario(location, atmosphere, boundaries, receivers);
+    hypl::Scenario scenario(location, ptr_atmosphere, boundaries, receivers);
 
     // BEGIN COMPUTATIONS
     std::cout << "Start computing --------------------------------------------" << std::endl;
@@ -130,6 +130,9 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
     duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     std::cout << "Time recording results = " << duration.count()/1000000. << " seconds" << std::endl;
     //  END RECORDING RESULTS 
+
+    // Cleaning 
+    delete ptr_atmosphere;
 }
 
 void WriteResults(std::string filename, hypl::Heliostat::IdealEfficiencyType ideal_efficiency_type, int maximum_number_of_valid_heliostats, 

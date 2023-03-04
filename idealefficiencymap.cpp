@@ -83,7 +83,7 @@ void hypl::IdealEfficiencyMap::ProcessDay(int const& day_number, Heliostat::Idea
     while (hour_angle < wo)
     {
         vec3d sun_vector = m_scenario.location().SolarVector(hour_angle, declination);
-        double dni = weight * m_scenario.atmosphere().DniFromSz(sun_vector.z);
+        double dni = weight * m_scenario.atmosphere()->DniFromSz(sun_vector.z);
         ProcessHeliostatFunctor process_heliostat(sun_vector, sun_subtended_angle, ideal_efficiency_type, dni);
         
         direct_insolation += dni;
