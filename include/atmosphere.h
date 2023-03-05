@@ -30,5 +30,4 @@ namespace hypl
         double m_beta;
     };
 }
-
 #endif // ATMOSPHERE_H

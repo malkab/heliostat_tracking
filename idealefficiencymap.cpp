@@ -9,13 +9,19 @@
 #include "processheliostatfunctor.h"
 
 
-hypl::IdealEfficiencyMap::IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns, Heliostat::IdealEfficiencyType ideal_efficiency_type) :
+hypl::IdealEfficiencyMap::IdealEfficiencyMap(Scenario& scenario, int nrows, int ncolumns, Heliostat* heliostat_factory) :
 m_scenario {scenario},
 m_nrows {nrows},
 m_ncolumns {ncolumns},
-m_ideal_efficiency_type {ideal_efficiency_type}
+m_heliostat_factory {heliostat_factory}
 {
     regenerate();
+}
+
+hypl::IdealEfficiencyMap::~IdealEfficiencyMap()
+{
+    delete m_heliostat_factory;
+    for (auto& element : m_heliostat) delete element;
 }
 
 void hypl::IdealEfficiencyMap::regenerate()
@@ -32,7 +38,7 @@ void hypl::IdealEfficiencyMap::regenerate()
         {
             double x = m_scenario.boundaries().xmin() + dx * (0.5 + column);
             hypl::vec3d heliostat_center(x, y, 0.0);
-            m_heliostat.emplace_back(m_scenario, heliostat_center, m_ideal_efficiency_type);
+            m_heliostat.push_back( m_heliostat_factory->Create(m_scenario, heliostat_center) );
         }
     }
     m_heliostat.shrink_to_fit();
@@ -40,16 +46,16 @@ void hypl::IdealEfficiencyMap::regenerate()
 
 void hypl::IdealEfficiencyMap::update()
 {
-    for (auto & element : m_heliostat) element.update ();
+    for (auto & element : m_heliostat) element->update ();
 }
 
-void hypl::IdealEfficiencyMap::EvaluateAnnualEfficiencies(Heliostat::IdealEfficiencyType ideal_efficiency_type, double delta_t)
+void hypl::IdealEfficiencyMap::EvaluateAnnualEfficiencies(double delta_t)
 {
     double delta_hour_angle = delta_t * hypl::mathconstants::earth_rotational_speed;
 
     // Initialization of key variables
     double direct_insolation = 0.0;
-    for (auto& element : m_heliostat) element.m_annual_ideal_efficiency = 0.0;
+    for (auto& element : m_heliostat) element->m_annual_ideal_efficiency = 0.0;
 
     // Computation for half of the year but multiplying the dni by 2.0
 
@@ -62,19 +68,19 @@ void hypl::IdealEfficiencyMap::EvaluateAnnualEfficiencies(Heliostat::IdealEffici
     double weight = 2.0;
     for(day_number=174; day_number<356; day_number++)
     {
-        ProcessDay(day_number, ideal_efficiency_type, delta_hour_angle, weight, direct_insolation);
+        ProcessDay(day_number, delta_hour_angle, weight, direct_insolation);
     }
  
 
     weight = 0.5;
     day_number = 173;
-    ProcessDay(day_number, ideal_efficiency_type, delta_hour_angle, weight, direct_insolation);
+    ProcessDay(day_number, delta_hour_angle, weight, direct_insolation);
 
-    for (auto& element : m_heliostat) element.m_annual_ideal_efficiency = element.m_annual_ideal_efficiency/direct_insolation;
+    for (auto& element : m_heliostat) element->m_annual_ideal_efficiency = element->m_annual_ideal_efficiency/direct_insolation;
 }
 
-void hypl::IdealEfficiencyMap::ProcessDay(int const& day_number, Heliostat::IdealEfficiencyType const& ideal_efficiency_type, 
-                                          double const& delta_hour_angle, double const& weight, double& direct_insolation)
+void hypl::IdealEfficiencyMap::ProcessDay(int const& day_number, double const& delta_hour_angle, 
+                                            double const& weight, double& direct_insolation)
 {
     double declination = m_scenario.declinations()[day_number-1];
     double sun_subtended_angle = m_scenario.sun_subtended_angles()[day_number-1];
@@ -84,7 +90,7 @@ void hypl::IdealEfficiencyMap::ProcessDay(int const& day_number, Heliostat::Idea
     {
         vec3d sun_vector = m_scenario.location().SolarVector(hour_angle, declination);
         double dni = weight * m_scenario.atmosphere()->DniFromSz(sun_vector.z);
-        ProcessHeliostatFunctor process_heliostat(sun_vector, sun_subtended_angle, ideal_efficiency_type, dni);
+        ProcessHeliostatFunctor process_heliostat(sun_vector, sun_subtended_angle, dni);
         
         direct_insolation += dni;
         std::for_each(std::execution::par_unseq, m_heliostat.begin(), m_heliostat.end(), process_heliostat);

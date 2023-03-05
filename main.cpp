@@ -15,13 +15,13 @@
 #include "receiver.h"
 #include "vec3d.h"
 #include "boundaries.h"
-#include "heliostat.h"
+#include "heliostatcosinetransmittance.h"
 #include "idealefficiencymap.h"
 #include "auxfunction.h"
 
 void benchmark_two_receiver_analysis(int nrows, int ncolumns);
 void TwoReceiversAnalysis(double latitude_degree, double tower_height, double receiver_radius, double maximum_heliostat_field_area);
-void WriteResults(std::string filename, hypl::Heliostat::IdealEfficiencyType ideal_efficiency_type, int maximum_number_of_valid_heliostats, 
+void WriteResults(std::string filename, int maximum_number_of_valid_heliostats, 
                   hypl::IdealEfficiencyMap& ideal_efficiency_map, std::vector< std::pair<double, double> > & average_field_efficiency);
 
 int main(int argc, char *argv[])
@@ -50,7 +50,6 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
     double receiver_radius = 5.0; // Meters 
     double maximum_heliostat_field_area = 2500000.0; // Square meters
     double delta_t = 225.0;
-    hypl::Heliostat::IdealEfficiencyType ideal_efficiency_type = hypl::Heliostat::IdealEfficiencyType::CosineAndTransmittance;
 
     // Environment
     hypl::Location location(latitude_degree * hypl::mathconstants::degree);
@@ -79,18 +78,20 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
     // Scenario
     hypl::Scenario scenario(location, ptr_atmosphere, boundaries, receivers);
 
+    hypl::HeliostatCosineAndTransmittance* heliostat_factory = new  hypl::HeliostatCosineAndTransmittance(scenario, hypl::vec3d(0.0, 0.0, 0.0)); 
+
     // BEGIN COMPUTATIONS
     std::cout << "Start computing --------------------------------------------" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
     // Compute annual optical efficiencies of ideal heliostats
-    hypl::IdealEfficiencyMap ideal_efficiency_map(scenario, nrows, ncolumns, ideal_efficiency_type); 
-    ideal_efficiency_map.EvaluateAnnualEfficiencies(ideal_efficiency_type, delta_t);
+    hypl::IdealEfficiencyMap ideal_efficiency_map(scenario, nrows, ncolumns, heliostat_factory); 
+    ideal_efficiency_map.EvaluateAnnualEfficiencies(delta_t);
 
     // Copy annual heliostats' annual ideal efficiencies (aie) to a vector of doubles
-    std::vector<hypl::Heliostat> const& heliostats = ideal_efficiency_map.heliostats();
+    std::vector<hypl::Heliostat*> const& heliostats = ideal_efficiency_map.heliostats();
     std::vector<double> haie;
-    for (auto& element : heliostats) haie.push_back(element.m_annual_ideal_efficiency);
+    for (auto& element : heliostats) haie.push_back(element->m_annual_ideal_efficiency);
 
     // Sort the annual efficiency vector from greater to lower
     std::sort(haie.begin(), haie.end(), std::greater<double>());
@@ -124,7 +125,7 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
 
     // Write results to finary file
     std::cout << "Writing results to binary file: " << filename << std::endl;
-    WriteResults(filename, ideal_efficiency_type, maximum_number_of_valid_heliostats, ideal_efficiency_map, average_field_efficiency);
+    WriteResults(filename, maximum_number_of_valid_heliostats, ideal_efficiency_map, average_field_efficiency);
 
     stop = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
@@ -135,29 +136,15 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
     delete ptr_atmosphere;
 }
 
-void WriteResults(std::string filename, hypl::Heliostat::IdealEfficiencyType ideal_efficiency_type, int maximum_number_of_valid_heliostats, 
+void WriteResults(std::string filename, int maximum_number_of_valid_heliostats, 
                   hypl::IdealEfficiencyMap& ideal_efficiency_map, std::vector< std::pair<double, double> > & average_field_efficiency)
 {
     std::ofstream outputFile;
     outputFile.open (filename, std::ios::out | std::ios::app | std::ios::binary);
 
     // Write the text indicating the type of ideal efficiency calcultation
-    std::string ideal_efficiency_type_text;
-    switch ( ideal_efficiency_type )
-    {
-        case hypl::Heliostat::IdealEfficiencyType::CosineOnly:
-            ideal_efficiency_type_text = "Cosine Only";
-            break;
-        case hypl::Heliostat::IdealEfficiencyType::CosineAndTransmittance:
-            ideal_efficiency_type_text = "Cosine and Attenuation";
-            break;
-        case hypl::Heliostat::IdealEfficiencyType::AllFactors:
-            ideal_efficiency_type_text = "All Factors";
-            break;
-        default:
-            ideal_efficiency_type_text = "Not Defined";
-            break;
-    }
+    std::string ideal_efficiency_type_text = "Cosine and Attenuation"; // HACK - NEED TO BE DONE PROPERLY
+
     outputFile.write( const_cast<char*>(ideal_efficiency_type_text.c_str()), ideal_efficiency_type_text.size() +1 );
 
     // Write maximum number of valid heliostats
@@ -176,10 +163,10 @@ void WriteResults(std::string filename, hypl::Heliostat::IdealEfficiencyType ide
     outputFile.write( (char *) &nreceivers, sizeof(int));
 
     // Write the annual ideal efficiency map as a vector of nrows * ncolumns elements
-    std::vector<hypl::Heliostat> const& heliostats = ideal_efficiency_map.heliostats();
+    std::vector<hypl::Heliostat*> const& heliostats = ideal_efficiency_map.heliostats();
     for (auto& element : heliostats)
     {
-        double annual_ideal_efficiency = element.m_annual_ideal_efficiency;
+        double annual_ideal_efficiency = element->m_annual_ideal_efficiency;
         outputFile.write((char *) &annual_ideal_efficiency, sizeof(double));
     }
 

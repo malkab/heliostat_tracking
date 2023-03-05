@@ -3,15 +3,13 @@
 #include "heliostat.h"
 #include "auxfunction.h"
 
-hypl::Heliostat::Heliostat(Scenario& scenario, vec3d center, IdealEfficiencyType ideal_efficiency_type) : 
+hypl::Heliostat::Heliostat(Scenario& scenario, vec3d center) : 
 m_scenario {scenario},
-m_center {center},
-m_ideal_efficiency_type {ideal_efficiency_type}
+m_center {center}
 { update(); }
 
 void hypl::Heliostat::update()
 {
-    AssignTrackFunction(m_ideal_efficiency_type);
     if( m_slant_range.empty() == false ) m_slant_range.clear();
     if( m_transmittance.empty() == false ) m_transmittance.clear();
     if( m_reflected_unit_vector.empty() == false ) m_reflected_unit_vector.clear();
@@ -30,10 +28,8 @@ void hypl::Heliostat::update()
         m_reflected_unit_vector.emplace_back(aux_vector3d.normalized());
         m_transmittance.emplace_back(m_scenario.atmosphere()->Transmittance(slant_range));
     }
-
     m_annual_ideal_efficiency = 0.0;
 }
-
 
 double hypl::Heliostat::Spillage(int receiver_id, double sun_subtended_angle) const
 {
@@ -56,86 +52,4 @@ double hypl::Heliostat::ReceiverShadowing(int receiver_id, vec3d& sun_vector ) c
     if( sqrt_distance_sun_ray_to_receiver_center > sqrt_receiver_radius) shadow_factor = 1.0;
 
     return  shadow_factor;
-}
-
-void hypl::Heliostat::AssignTrackFunction(IdealEfficiencyType ideal_efficiency_type)
-{
-    switch ( ideal_efficiency_type )
-        {
-            case IdealEfficiencyType::CosineOnly:
-                m_ptrTrackingFunction = &Heliostat::TrackCosineOnly;
-                break;
-            case IdealEfficiencyType::CosineAndTransmittance:
-                m_ptrTrackingFunction = &Heliostat::TrackCosineAndTransmittance; 
-                break;
-            case IdealEfficiencyType::AllFactors:
-                m_ptrTrackingFunction = &Heliostat::TrackAllFactors;           
-                break;
-        }  
-}
-
-hypl::Heliostat::TrackingInfo hypl::Heliostat::Track(vec3d& sun_vector,  double sun_subtended_angle) const
-{
-    return ((*this).*m_ptrTrackingFunction)(sun_vector, sun_subtended_angle);
-}
-
-hypl::Heliostat::TrackingInfo hypl::Heliostat::TrackCosineOnly(vec3d& sun_vector,  double sun_subtended_angle) const
-{
-    TrackingInfo tracking_info = { -1.0, -1 };
-    
-    double ideal_efficiency;
- 
-    for (int receiver_id = 0; receiver_id < m_scenario.receivers().size(); receiver_id++)
-    {
-        ideal_efficiency = sqrt( 0.5 + 0.5 * dot(sun_vector, m_reflected_unit_vector[receiver_id]) );
-
-        if (ideal_efficiency > tracking_info.ideal_efficiency)
-        {
-            tracking_info.ideal_efficiency = ideal_efficiency;
-            tracking_info.aiming_at_receiver_id = receiver_id;
-        }
-    }
-    return tracking_info;
-}
-
-hypl::Heliostat::TrackingInfo hypl::Heliostat::TrackCosineAndTransmittance(vec3d& sun_vector,  double sun_subtended_angle) const
-{
-    TrackingInfo tracking_info = { -1.0, -1 };
-
-    double cosine;
-    double ideal_efficiency;
- 
-    for (int receiver_id = 0; receiver_id < m_scenario.receivers().size(); receiver_id++)
-    {            
-        cosine = sqrt( 0.5 + 0.5 * dot(sun_vector, m_reflected_unit_vector[receiver_id]) );
-        ideal_efficiency = cosine * m_transmittance[receiver_id];
-
-        if (ideal_efficiency > tracking_info.ideal_efficiency)
-        {
-            tracking_info.ideal_efficiency = ideal_efficiency;
-            tracking_info.aiming_at_receiver_id = receiver_id;
-        }
-    }           
-    return tracking_info;
-}
-
-hypl::Heliostat::TrackingInfo hypl::Heliostat::TrackAllFactors(vec3d& sun_vector,  double sun_subtended_angle) const
-{
-    TrackingInfo tracking_info = { -1.0, -1 };
-
-    double cosine;
-    double ideal_efficiency;
- 
-    for (int receiver_id = 0; receiver_id < m_scenario.receivers().size(); receiver_id++)
-    {
-        cosine = sqrt( 0.5 + 0.5 * dot(sun_vector, m_reflected_unit_vector[receiver_id]) );
-        ideal_efficiency = cosine * m_transmittance[receiver_id] *  Spillage(receiver_id, sun_subtended_angle) * ReceiverShadowing(receiver_id, sun_vector);
-
-        if (ideal_efficiency > tracking_info.ideal_efficiency)
-        {
-            tracking_info.ideal_efficiency = ideal_efficiency;
-            tracking_info.aiming_at_receiver_id = receiver_id;
-        }
-    }                      
-    return tracking_info;
 }

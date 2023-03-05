@@ -14,7 +14,8 @@ set(Headers
     ./include/atmosphereVB.h  
     ./include/auxfunction.h
     ./include/boundaries.h 
-    ./include/heliostat.h 
+    ./include/heliostat.h
+    ./include/heliostatcosinetransmittance.h
     ./include/idealefficiencymap.h 
     ./include/location.h 
     ./include/mathconstants.h
@@ -27,13 +28,14 @@ set(Headers
 
 set(Sources
     main.cpp
-    auxfunction.cpp 
-    scenario.cpp 
+    auxfunction.cpp
+    scenario.cpp
     heliostat.cpp
+    heliostatcosinetransmittance.cpp
     processheliostatfunctor.cpp
-    idealefficiencymap.cpp     
+    idealefficiencymap.cpp
     location.cpp
-    vec2d.cpp 
+    vec2d.cpp
     vec3d.cpp
 )
 
