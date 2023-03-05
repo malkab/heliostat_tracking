@@ -19,7 +19,6 @@ set(Headers
     ./include/idealefficiencymap.h 
     ./include/location.h 
     ./include/mathconstants.h
-    ./include/processheliostatfunctor.h    
     ./include/receiver.h
     ./include/scenario.h
     ./include/vec2d.h 
@@ -32,8 +31,6 @@ set(Sources
     scenario.cpp
     heliostat.cpp
     heliostatcosinetransmittance.cpp
-    processheliostatfunctor.cpp
-    idealefficiencymap.cpp
     location.cpp
     vec2d.cpp
     vec3d.cpp
