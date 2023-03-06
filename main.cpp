@@ -46,9 +46,9 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
     std::cout << "Executing benchmark_two_receiver_analysis(" << nrows << ", " << ncolumns << ")" << std::endl;
     // Input data
     double latitude_degree = 30.0; // Degrees North
-    double tower_height = 50.0; // Meters
+    double tower_height = 100.0; // Meters
     double receiver_radius = 5.0; // Meters 
-    double maximum_heliostat_field_area = 2500000.0; // Square meters
+    double maximum_heliostat_field_area = 250000.0; // Square meters
     double delta_t = 225.0;
 
     // Environment
@@ -57,10 +57,16 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
 
     // Boundaries
     double characteristic_length = sqrt(maximum_heliostat_field_area);
-    double xmin = -(1.5 * characteristic_length);
-    double xmax = -xmin;
-    double ymin = -(0.5 * characteristic_length);
-    double ymax =  (1.5 * characteristic_length);
+ //   double xmin = -(1.5 * characteristic_length);
+ //   double xmax = -xmin;
+ //   double ymin = -(0.5 * characteristic_length);
+ //   double ymax =  (1.5 * characteristic_length);
+
+    double xmin = -1000;
+    double xmax = 1000;
+    double ymin = -350;
+    double ymax =  1000;
+
     hypl::Boundaries boundaries(xmin,xmax,ymin,ymax);
 
     // Compute heliostat reflective area and number of heliostats in the field
@@ -70,10 +76,14 @@ void benchmark_two_receiver_analysis(int nrows, int ncolumns)
 
     // Distance between receivers
     double factor = 1.0;
-    double distance_between_receivers =  factor * characteristic_length;
+ //   double distance_between_receivers =  factor * characteristic_length;
+    double distance_between_receivers = 795;
     std::vector<hypl::Receiver> receivers;
-    receivers.push_back(hypl::Receiver(hypl::vec3d(-distance_between_receivers/2.0, 0.0, tower_height), receiver_radius));
-    receivers.push_back(hypl::Receiver(hypl::vec3d( distance_between_receivers/2.0, 0.0, tower_height), receiver_radius));   
+
+    receivers.push_back(hypl::Receiver(hypl::vec3d(0.0, 0.0, tower_height), receiver_radius)); //ONE RECEIVER
+
+ //   receivers.push_back(hypl::Receiver(hypl::vec3d(-distance_between_receivers/2.0, 0.0, tower_height), receiver_radius));
+ //   receivers.push_back(hypl::Receiver(hypl::vec3d( distance_between_receivers/2.0, 0.0, tower_height), receiver_radius));   
 
     // Scenario
     hypl::Scenario scenario(location, ptr_atmosphere, boundaries, receivers);

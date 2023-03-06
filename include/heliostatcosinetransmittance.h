@@ -12,7 +12,6 @@ namespace hypl
         HeliostatCosineAndTransmittance(Scenario& scenario, vec3d center) : Heliostat(scenario, center) {} 
 
         //Public functions
-        virtual Heliostat* Create(Scenario& scenario, vec3d center) override { return new HeliostatCosineAndTransmittance(scenario, center); }
         virtual TrackingInfo Track(vec3d& sun_vector, double sun_subtended_angle) const;
     };
 }

@@ -30,7 +30,6 @@ namespace hypl
         void update();
 
         //Public functions
-        virtual Heliostat* Create(Scenario& scenario, vec3d center) = 0; // Pure virtual function
         virtual TrackingInfo Track(vec3d& sun_vector, double sun_subtended_angle) const = 0; // Pure virtual function
         virtual ~Heliostat() { }
         double Spillage(int receiver_id, double sun_subtended_angle) const;

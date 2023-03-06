@@ -15,6 +15,8 @@ set(Headers
     ./include/auxfunction.h
     ./include/boundaries.h 
     ./include/heliostat.h
+    ./include/heliostatallfactors.h
+    ./include/heliostatcosine.h
     ./include/heliostatcosinetransmittance.h
     ./include/idealefficiencymap.h 
     ./include/location.h 
@@ -30,6 +32,8 @@ set(Sources
     auxfunction.cpp
     scenario.cpp
     heliostat.cpp
+    heliostatallfactors.cpp
+    heliostatcosine.cpp
     heliostatcosinetransmittance.cpp
     location.cpp
     vec2d.cpp
