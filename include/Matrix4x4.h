@@ -3,7 +3,6 @@
 #include <memory>
 #include <iostream>
 
-
 class Matrix4x4
 {
 public:

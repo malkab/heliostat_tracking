@@ -42,8 +42,6 @@ inline double findAngle(const vec3d& a, const vec3d& m, const vec3d& v, double a
     return atan2(dot(a, cross(m, v)), dot(m, v) - av*av);
 }
 
-
-
 // rotate v0 to v
 std::vector<Angles> TrackerSolver2A::solveRotation(const vec3d& v0, const vec3d& v)
 {
@@ -85,8 +83,6 @@ std::vector<Angles> TrackerSolver2A::solveReflectionSecondary(const vec3d& vSun,
     vec3d vSun0 = -vTarget0.reflected(m_armature->facet.normal);
     return solveRotation(vSun0, vSun);
 }
-
-
 
 Angles TrackerSolver2A::selectSolution(const std::vector<Angles>& solutions)
 {
