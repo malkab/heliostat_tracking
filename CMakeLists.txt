@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25.1)
 
-project(hyperion VERSION 0.1.0 LANGUAGES CXX)
+project(heliostat_tracking VERSION 0.1.0 LANGUAGES CXX)
 
 
 include_directories(./include)
@@ -8,38 +8,34 @@ include_directories(./include)
 set(-DCMAKE_PREFIX_PATH="/opt/homebrew/lib")
 
 set(Headers 
-    ./include/atmosphere.h 
-    ./include/atmosphereLH.h 
-    ./include/atmosphereSW.h 
-    ./include/atmosphereVB.h  
-    ./include/auxfunction.h
-    ./include/boundaries.h 
-    ./include/heliostat.h
-    ./include/heliostatallfactors.h
-    ./include/heliostatcosine.h
-    ./include/heliostatcosinetransmittance.h
-    ./include/idealefficiencymap.h 
-    ./include/location.h 
-    ./include/mathconstants.h
-    ./include/receiver.h
-    ./include/scenario.h
-    ./include/vec2d.h 
-    ./include/vec3d.h
+    ./include/ArmatureJoint.h
+    ./include/gcf.h
+    ./include/Interval.h
+    ./include/IntervalPeriodic.h
+    ./include/Matrix4x4.h
+    ./include/TrackerArmature2A.h 
+    ./include/TrackerSolver2A.h
+    ./include/TrackerTarget.h
+    ./include/Transform.h          
+    ./include/vec2d.h
+    ./include/vec3d.h        
 )
 
 set(Sources
     main.cpp
-    auxfunction.cpp
-    scenario.cpp
-    heliostat.cpp
-    heliostatallfactors.cpp
-    heliostatcosine.cpp
-    heliostatcosinetransmittance.cpp
-    location.cpp
+    ArmatureJoint.cpp
+    gfc.cpp
+    Interval.cpp
+    IntervalPeriodic.cpp
+    Matrix4x4.cpp
+    TrackedTarget.cpp
+    TrackerArmature2A.cpp
+    TrackerSolver.cpp
+    Transform.cpp
     vec2d.cpp
     vec3d.cpp
 )
 
-add_executable(hyperion ${Sources} ${Headers})
+add_executable(heliostat_tracking ${Sources} ${Headers})
 
-target_compile_features(hyperion PRIVATE cxx_std_20)
+target_compile_features(heliostat_tracking PRIVATE cxx_std_20)
