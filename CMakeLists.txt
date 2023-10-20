@@ -28,9 +28,9 @@ set(Sources
     Interval.cpp
     IntervalPeriodic.cpp
     Matrix4x4.cpp
-    TrackedTarget.cpp
+    TrackerTarget.cpp
     TrackerArmature2A.cpp
-    TrackerSolver.cpp
+    TrackerSolver2A.cpp
     Transform.cpp
     vec2d.cpp
     vec3d.cpp

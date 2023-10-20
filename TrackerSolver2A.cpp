@@ -3,6 +3,12 @@
 #include "TrackerSolver2A.h"
 #include "gcf.h"
 
+// rotation around a from m to v
+inline double findAngle(const vec3d& a, const vec3d& m, const vec3d& v, double av)
+{
+    return atan2(dot(a, cross(m, v)), dot(m, v) - av*av);
+}
+
 std::vector<Angles> TrackerSolver2A::solveReflectionGlobal(const vec3d& vSun, const vec3d& rAim)
 {
     std::vector<Angles> ans;
@@ -36,10 +42,10 @@ vec3d TrackerSolver2A::findFacetPoint(const Angles& angles)
     return m_armature->primary.getTransform(angles.x).transformPoint(r);
 }
 
-// rotation around a from m to v
-inline double findAngle(const vec3d& a, const vec3d& m, const vec3d& v, double av)
+// rotate facet.normal to normal
+std::vector<Angles> TrackerSolver2A::solveFacetNormal(const vec3d& normal)
 {
-    return atan2(dot(a, cross(m, v)), dot(m, v) - av*av);
+    return solveRotation(m_armature->facet.normal, normal);
 }
 
 // rotate v0 to v
@@ -69,12 +75,6 @@ std::vector<Angles> TrackerSolver2A::solveRotation(const vec3d& v0, const vec3d&
     m = m0 + mk*k;
     ans.push_back(Angles(findAngle(a, m, v, av), findAngle(b, v0, m, bv0)));
     return ans;
-}
-
-// rotate facet.normal to normal
-std::vector<Angles> TrackerSolver2A::solveFacetNormal(const vec3d& normal)
-{
-    return solveRotation(m_armature->facet.normal, normal);
 }
 
 std::vector<Angles> TrackerSolver2A::solveReflectionSecondary(const vec3d& vSun, const vec3d& rAim)

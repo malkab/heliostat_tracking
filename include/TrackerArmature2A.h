@@ -10,6 +10,7 @@ class TrackerArmature2A
 {
 public:
     TrackerArmature2A();
+    ~TrackerArmature2A(); // should be protected later
 
     void update(const Transform& toGlobal,
                 const vec3d& vSun, TrackerTarget* target);
@@ -34,7 +35,6 @@ public:
 
 
 protected:
-    ~TrackerArmature2A();
     void onModified();
 
     TrackerSolver2A* m_solver;

@@ -4,8 +4,8 @@
 
 TrackerArmature2A::TrackerArmature2A()
 {
-    primaryShift = vec3d(0.f, 0.f, 1.f);
-    primaryAxis = vec3d(0.f, 0.f, -1.f); // azimuth
+    primaryShift = vec3d(0.f, 0.f, 0.f); // original value vec3d(0.f, 0.f, 1.f)
+    primaryAxis = vec3d(0.f, 0.f, -1.f); // azimuth original value vec3d(0.f, 0.f, -1.f)
     primaryAngles = vec2d(-90.f, 90.f);
 
     secondaryShift = vec3d(0.f, 0.f, 0.f);
@@ -50,8 +50,7 @@ TrackerArmature2A::~TrackerArmature2A()
     delete m_solver;
 }
 
-void TrackerArmature2A::update(const Transform& toGlobal,
-                               const vec3d& vSun, TrackerTarget* target)
+void TrackerArmature2A::update(const Transform& toGlobal, const vec3d& vSun, TrackerTarget* target)
 {
     std::vector<Angles> solutions;
     Transform toLocal = toGlobal.inversed();
