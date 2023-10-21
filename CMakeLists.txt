@@ -41,3 +41,5 @@ set(Sources
     vec3d.cpp
 )
     add_library(${This} STATIC ${Sources} ${Headers})
+
+    add_subdirectory(test)
