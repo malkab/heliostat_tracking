@@ -9,12 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 enable_testing()
-
 add_subdirectory(googletest)
 
 include_directories(./include)
-
-# set(-DCMAKE_PREFIX_PATH="/opt/homebrew/lib")
 
 set(Headers 
     ./include/ArmatureJoint.h
@@ -43,5 +40,4 @@ set(Sources
     vec2d.cpp
     vec3d.cpp
 )
-
     add_library(${This} STATIC ${Sources} ${Headers})
