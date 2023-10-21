@@ -1,11 +1,20 @@
 cmake_minimum_required(VERSION 3.25.1)
 
-project(heliostat_tracking VERSION 0.1.0 LANGUAGES CXX)
+set(This heliostat_tracking)
 
+project(${This} VERSION 0.1.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+enable_testing()
+
+add_subdirectory(googletest)
 
 include_directories(./include)
 
-set(-DCMAKE_PREFIX_PATH="/opt/homebrew/lib")
+# set(-DCMAKE_PREFIX_PATH="/opt/homebrew/lib")
 
 set(Headers 
     ./include/ArmatureJoint.h
@@ -22,7 +31,6 @@ set(Headers
 )
 
 set(Sources
-    main.cpp
     ArmatureJoint.cpp
     gfc.cpp
     Interval.cpp
@@ -36,6 +44,4 @@ set(Sources
     vec3d.cpp
 )
 
-add_executable(heliostat_tracking ${Sources} ${Headers})
-
-target_compile_features(heliostat_tracking PRIVATE cxx_std_20)
+    add_library(${This} STATIC ${Sources} ${Headers})
