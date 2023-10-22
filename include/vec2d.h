@@ -8,27 +8,16 @@ struct vec2d
     vec2d(double x = 0., double y = 0):
         x(x), y(y) {}
 
-    // constants
+    // Constants
     static const vec2d Zero;
     static const vec2d One;
     static const vec2d UnitX;
     static const vec2d UnitY;
 
+    // Arithmetic operations
     vec2d operator+(const vec2d& v) const
     {
         return vec2d(x + v.x, y + v.y);
-    }
-
-    vec2d& operator+=(const vec2d& v)
-    {
-        x += v.x;
-        y += v.y;
-        return *this;
-    }
-
-    vec2d operator-() const
-    {
-        return vec2d(-x, -y);
     }
 
     vec2d operator-(const vec2d& v) const
@@ -36,11 +25,9 @@ struct vec2d
         return vec2d(x - v.x, y - v.y);
     }
 
-    vec2d& operator-=(const vec2d& v)
+    vec2d operator-() const
     {
-        x -= v.x;
-        y -= v.y;
-        return *this;
+        return vec2d(-x, -y);
     }
 
     vec2d operator*(double s) const
@@ -51,13 +38,6 @@ struct vec2d
     vec2d operator*(const vec2d& v) const
     {
         return vec2d(x*v.x, y*v.y);
-    }
-
-    vec2d& operator*=(double s)
-    {
-        x *= s;
-        y *= s;
-        return *this;
     }
 
     vec2d operator/(double s) const
@@ -71,6 +51,29 @@ struct vec2d
         return vec2d(x/v.x, y/v.y);
     }
 
+    // Arithmetic assignments
+
+    vec2d& operator+=(const vec2d& v)
+    {
+        x += v.x;
+        y += v.y;
+        return *this;
+    }
+
+    vec2d& operator-=(const vec2d& v)
+    {
+        x -= v.x;
+        y -= v.y;
+        return *this;
+    }
+
+    vec2d& operator*=(double s)
+    {
+        x *= s;
+        y *= s;
+        return *this;
+    }
+
     vec2d& operator/=(double s)
     {
         s = 1./s;
@@ -79,10 +82,12 @@ struct vec2d
         return *this;
     }
 
+    // Comparison
     bool operator==(const vec2d& v) const;
     bool operator!=(const vec2d& v) const;
     bool operator<=(const vec2d& v) const {return x <= v.x && y <= v.y;}
 
+    // Element access
     double operator[](int i) const
     {
         if (i == 0) return x;
@@ -95,6 +100,7 @@ struct vec2d
         return y;
     }
 
+    // Normalize and norm methods
     double norm2() const {
         return x*x + y*y;
     }
@@ -121,14 +127,10 @@ struct vec2d
         return false;
     }
 
-//    vec2d reflected(const vec2d& n) const;
-
-    double x;
-    double y;
-
+    // Utility methods
+    vec2d abs() const {return vec2d(std::abs(x), std::abs(y));}
     double min() const {return std::min(x, y);}
     double max() const {return std::max(x, y);}
-    vec2d abs() const {return vec2d(std::abs(x), std::abs(y));}
     int maxDimension() const {return x > y ? 0 : 1;}
 
     static vec2d min(const vec2d& a, const vec2d& b)
@@ -146,22 +148,28 @@ struct vec2d
             std::max(a.y, b.y)
         );
     }
+
+    double x;
+    double y;
 };
 
-
+// Scalar multiplication from left
 inline vec2d operator*(double s, const vec2d& v)
 {
     return vec2d(s*v.x, s*v.y);
 }
 
+// Dot produce
 inline double dot(const vec2d& a, const vec2d& b)
 {
     return a.x*b.x + a.y*b.y;
 }
 
+// Cross product
 inline double cross(const vec2d& a, const vec2d& b)
 {
     return a.x*b.y - a.y*b.x;
 }
 
+// Stream output
 std::ostream& operator<<(std::ostream& os, const vec2d& vector);
