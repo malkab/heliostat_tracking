@@ -173,7 +173,6 @@ struct vec3d
     static vec3d directionAE(double azimuth, double elevation);
 };
 
-
 inline vec3d operator*(double s, const vec3d& v)
 {
     return vec3d(s*v.x, s*v.y, s*v.z);
@@ -201,12 +200,18 @@ inline double triple(const vec3d& a, const vec3d& b, const vec3d& c)
 // this != normal
 inline vec3d vec3d::projected(const vec3d& n) const
 {
+    // This computes the orthogonal projection of "*this" onto a plane 
+    // defined by its normal vector n.
+    // It is assumed that n is a unit vector.
     return *this - n*dot(*this, n);
 }
 
 // this != normal
 inline vec3d vec3d::reflected(const vec3d& n) const
 {
+    // This computes the the reflection of "*this" onto a plane 
+    // defined by its normal vector n.
+    // It is assumed that n is a unit vector.
     return *this - n*(2.*dot(*this, n));
 }
 

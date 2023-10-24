@@ -11,7 +11,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 enable_testing()
 add_subdirectory(googletest)
 
-include_directories(./include)
+include_directories(./include ./googletest/googlemock/include)
 
 set(Headers 
     ./include/ArmatureJoint.h

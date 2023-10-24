@@ -169,3 +169,4 @@ std::ostream& operator<<(std::ostream& os, const Matrix4x4& matrix)
     }
     return os;
 }
+

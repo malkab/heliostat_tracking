@@ -4,18 +4,18 @@
 
 TrackerArmature2A::TrackerArmature2A()
 {
-    primaryShift = vec3d(0.f, 0.f, 0.f); // original value vec3d(0.f, 0.f, 1.f)
-    primaryAxis = vec3d(0.f, 0.f, -1.f); // azimuth original value vec3d(0.f, 0.f, -1.f)
-    primaryAngles = vec2d(-90.f, 90.f);
+    m_primaryShift = vec3d(0.f, 0.f, 0.f); // original value vec3d(0.f, 0.f, 1.f)
+    m_primaryAxis = vec3d(0.f, 0.f, -1.f); // azimuth original value vec3d(0.f, 0.f, -1.f)
+    m_primaryAngles = vec2d(-90.f, 90.f);
 
-    secondaryShift = vec3d(0.f, 0.f, 0.f);
-    secondaryAxis = vec3d(1.f, 0.f, 0.f); // elevation
-    secondaryAngles = vec2d(-90.f, 90.f);
+    m_secondaryShift = vec3d(0.f, 0.f, 0.f);
+    m_secondaryAxis = vec3d(1.f, 0.f, 0.f); // elevation
+    m_secondaryAngles = vec2d(-90.f, 90.f);
 
-    facetShift = vec3d(0.f, 0.f, 0.f);
-    facetNormal = vec3d(0.f, 0.f, 1.f);
+    m_facetShift = vec3d(0.f, 0.f, 0.f);
+    m_facetNormal = vec3d(0.f, 0.f, 1.f);
 
-    anglesDefault = vec2d(0., 0.);
+    m_anglesDefault = vec2d(0., 0.);
 
     m_solver = new TrackerSolver2A(this);
     onModified(); 
@@ -23,31 +23,32 @@ TrackerArmature2A::TrackerArmature2A()
 
 void TrackerArmature2A::onModified()
 {
-    vec2d pa = primaryAngles * gcf::degree;
-    primary = ArmatureJoint(
-        primaryShift,
-        primaryAxis,
+    vec2d pa = m_primaryAngles * gcf::degree;
+    m_primary = ArmatureJoint(
+        m_primaryShift,
+        m_primaryAxis,
         IntervalPeriodic(pa.x, pa.y)
     );
 
-    vec2d pb = secondaryAngles * gcf::degree;
-    secondary = ArmatureJoint(
-        secondaryShift,
-        secondaryAxis,
+    vec2d pb = m_secondaryAngles * gcf::degree;
+    m_secondary = ArmatureJoint(
+        m_secondaryShift,
+        m_secondaryAxis,
         IntervalPeriodic(pb.x, pb.y)
     );
 
-    facet = ArmatureVertex(
-        facetShift,
-        facetNormal
+    m_facet = ArmatureVertex(
+        m_facetShift,
+        m_facetNormal
     );
 
-    angles0 = anglesDefault;
+    m_angles0 = m_anglesDefault * gcf::degree; // It is assumed that m_anglesDefault is given in degrees.
 }
 
 TrackerArmature2A::~TrackerArmature2A()
 {
     delete m_solver;
+    m_solver = nullptr;
 }
 
 void TrackerArmature2A::update(const Transform& toGlobal, const vec3d& vSun, TrackerTarget* target)

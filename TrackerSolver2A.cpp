@@ -17,7 +17,7 @@ std::vector<Angles> TrackerSolver2A::solveReflectionGlobal(const vec3d& vSun, co
 
     for (int s = 0; s < 2; ++s) // solutions
     {
-        vec3d rFacet = findFacetPoint(m_armature->angles0);
+        vec3d rFacet = findFacetPoint(m_armature->get_angles0());
         for (int i = 0; i < iMax; ++i)
         {
             vec3d vTarget = (rAim - rFacet).normalized();
@@ -38,21 +38,21 @@ std::vector<Angles> TrackerSolver2A::solveReflectionGlobal(const vec3d& vSun, co
 
 vec3d TrackerSolver2A::findFacetPoint(const Angles& angles)
 {
-    vec3d r = m_armature->secondary.getTransform(angles.y).transformPoint(m_armature->facet.shift);
-    return m_armature->primary.getTransform(angles.x).transformPoint(r);
+    vec3d r = m_armature->get_secondary().getTransform(angles.y).transformPoint(m_armature->get_facet().shift);
+    return m_armature->get_primary().getTransform(angles.x).transformPoint(r);
 }
 
 // rotate facet.normal to normal
 std::vector<Angles> TrackerSolver2A::solveFacetNormal(const vec3d& normal)
 {
-    return solveRotation(m_armature->facet.normal, normal);
+    return solveRotation(m_armature->get_facet().normal, normal);
 }
 
 // rotate v0 to v
 std::vector<Angles> TrackerSolver2A::solveRotation(const vec3d& v0, const vec3d& v)
 {
-    const vec3d& a = m_armature->primary.axis;
-    const vec3d& b = m_armature->secondary.axis;
+    const vec3d& a = m_armature->get_primary().axis;
+    const vec3d& b = m_armature->get_secondary().axis;
 
     vec3d k = cross(a, b);
     double k2 = k.norm2();
@@ -79,8 +79,8 @@ std::vector<Angles> TrackerSolver2A::solveRotation(const vec3d& v0, const vec3d&
 
 std::vector<Angles> TrackerSolver2A::solveReflectionSecondary(const vec3d& vSun, const vec3d& rAim)
 {
-    vec3d vTarget0 = (rAim - m_armature->facet.shift).normalized();
-    vec3d vSun0 = -vTarget0.reflected(m_armature->facet.normal);
+    vec3d vTarget0 = (rAim - m_armature->get_facet().shift).normalized();
+    vec3d vSun0 = -vTarget0.reflected(m_armature->get_facet().normal);
     return solveRotation(vSun0, vSun);
 }
 
@@ -92,11 +92,11 @@ Angles TrackerSolver2A::selectSolution(const std::vector<Angles>& solutions)
     for (const Angles& solution : solutions)
     {
         Angles temp;
-        temp.x = m_armature->primary.angles.normalizeAngle(solution.x);
-        if (!m_armature->primary.angles.isInside(temp.x)) continue;
-        temp.y = m_armature->secondary.angles.normalizeAngle(solution.y);
-        if (!m_armature->secondary.angles.isInside(temp.y)) continue;
-        double z = (temp - m_armature->angles0).norm2();
+        temp.x = m_armature->get_primary().angles.normalizeAngle(solution.x);
+        if (!m_armature->get_primary().angles.isInside(temp.x)) continue;
+        temp.y = m_armature->get_secondary().angles.normalizeAngle(solution.y);
+        if (!m_armature->get_secondary().angles.isInside(temp.y)) continue;
+        double z = (temp - m_armature->get_angles0()).norm2();
         if (z > zAns) continue;
         ans = temp;
         zAns = z;
@@ -104,5 +104,5 @@ Angles TrackerSolver2A::selectSolution(const std::vector<Angles>& solutions)
 
     if (zAns < gcf::infinity)
         return ans;
-    return m_armature->angles0;
+    return m_armature->get_angles0();
 }
