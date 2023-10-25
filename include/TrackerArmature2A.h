@@ -30,7 +30,8 @@ public:
     const ArmatureJoint& get_secondary() const { return m_secondary; }
     const ArmatureVertex& get_facet() const { return m_facet; }
     const vec2d& get_angles0() const { return m_angles0; }
-    
+    TrackerSolver2A* const& get_solver() const { return m_solver; }
+
     // Setter functions
     void set_primaryShift(vec3d primaryShift) { m_primaryShift = primaryShift; onModified(); }
     void set_primaryAxis(vec3d primaryAxis) { m_primaryAxis = primaryAxis; onModified(); }
@@ -44,8 +45,6 @@ public:
     void set_facetNormal(vec3d facetNormal) { m_facetNormal = facetNormal; onModified(); }
 
     void set_anglesDefault(vec2d anglesDefault) { m_anglesDefault = anglesDefault; onModified(); }
-
-    void set_solver(TrackerSolver2A* solver);
 
     void update(const Transform& toGlobal,
                 const vec3d& vSun, TrackerTarget* target);

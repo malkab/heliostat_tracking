@@ -2,7 +2,7 @@
 
 #include "gcf.h"
 
-const Transform Transform::Identity(new Matrix4x4);
+const Transform Transform::Identity(new Matrix4x4());
 
 Transform::Transform():
     m_mdir(0), m_minv(0)

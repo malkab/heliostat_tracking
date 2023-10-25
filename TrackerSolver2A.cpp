@@ -9,7 +9,7 @@ inline double findAngle(const vec3d& a, const vec3d& m, const vec3d& v, double a
     return atan2(dot(a, cross(m, v)), dot(m, v) - av*av);
 }
 
-std::vector<Angles> TrackerSolver2A::solveReflectionGlobal(const vec3d& vSun, const vec3d& rAim)
+std::vector<Angles> TrackerSolver2A::solveReflectionGlobal(const vec3d& vSun, const vec3d& rAim) const
 {
     std::vector<Angles> ans;
     int iMax = 5; // max iterations
@@ -36,20 +36,20 @@ std::vector<Angles> TrackerSolver2A::solveReflectionGlobal(const vec3d& vSun, co
     return ans;
 }
 
-vec3d TrackerSolver2A::findFacetPoint(const Angles& angles)
+vec3d TrackerSolver2A::findFacetPoint(const Angles& angles) const
 {
     vec3d r = m_armature->get_secondary().getTransform(angles.y).transformPoint(m_armature->get_facet().shift);
     return m_armature->get_primary().getTransform(angles.x).transformPoint(r);
 }
 
 // rotate facet.normal to normal
-std::vector<Angles> TrackerSolver2A::solveFacetNormal(const vec3d& normal)
+std::vector<Angles> TrackerSolver2A::solveFacetNormal(const vec3d& normal) const
 {
     return solveRotation(m_armature->get_facet().normal, normal);
 }
 
 // rotate v0 to v
-std::vector<Angles> TrackerSolver2A::solveRotation(const vec3d& v0, const vec3d& v)
+std::vector<Angles> TrackerSolver2A::solveRotation(const vec3d& v0, const vec3d& v) const
 {
     const vec3d& a = m_armature->get_primary().axis;
     const vec3d& b = m_armature->get_secondary().axis;
@@ -77,14 +77,14 @@ std::vector<Angles> TrackerSolver2A::solveRotation(const vec3d& v0, const vec3d&
     return ans;
 }
 
-std::vector<Angles> TrackerSolver2A::solveReflectionSecondary(const vec3d& vSun, const vec3d& rAim)
+std::vector<Angles> TrackerSolver2A::solveReflectionSecondary(const vec3d& vSun, const vec3d& rAim) const
 {
     vec3d vTarget0 = (rAim - m_armature->get_facet().shift).normalized();
     vec3d vSun0 = -vTarget0.reflected(m_armature->get_facet().normal);
     return solveRotation(vSun0, vSun);
 }
 
-Angles TrackerSolver2A::selectSolution(const std::vector<Angles>& solutions)
+Angles TrackerSolver2A::selectSolution(const std::vector<Angles>& solutions) const
 {
     Angles ans;
     double zAns = gcf::infinity;
