@@ -5,7 +5,7 @@
 const Transform Transform::Identity(new Matrix4x4());
 
 Transform::Transform():
-    m_mdir(0), m_minv(0)
+    m_mdir(nullptr), m_minv(nullptr)
 {
 
 }

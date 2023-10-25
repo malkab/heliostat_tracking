@@ -7,9 +7,9 @@
 // global constants and functions
 namespace gcf
 {
-    const double pi = 3.1415926535897932385;
-    const double TwoPi = 2.*pi;
-    const double degree = pi/180.0;
+    const double Pi = 3.1415926535897932385;
+    const double TwoPi = 2.*Pi;
+    const double degree = Pi/180.0;
     const double infinity = HUGE_VAL;
     const double Epsilon = DBL_EPSILON;
 
