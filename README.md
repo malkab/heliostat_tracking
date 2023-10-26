@@ -1,2 +1,2 @@
-# hyperion
-Integrated program to assist in the determination of upper limits of the optical efficiencies of solar tower systems.
+# heliostat_tracking
+Basic library to simulate all types of two axis heliostat trackers.
