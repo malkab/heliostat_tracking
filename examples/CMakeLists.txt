@@ -8,5 +8,3 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_executable(azimuth_elevation azimuth_elevation/main1.cpp)
 
 target_link_libraries(azimuth_elevation heliostat_tracking)
-
-# Add similar blocks for other examples
