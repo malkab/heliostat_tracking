@@ -3,7 +3,7 @@
 #include "vec3d.h"
 #include "Matrix4x4.h"
 
-struct Box3D;
+class Ray;
 
 class Transform
 {
@@ -33,9 +33,14 @@ public:
     vec3d transformVector(const vec3d& v) const;
     vec3d transformNormal(const vec3d& n) const;
     vec3d transformInverseNormal(const vec3d& n) const;
+    Ray transformDirect(const Ray& r) const;
+    Ray transformInverse(const Ray& r) const;
 
     vec3d operator()(const vec3d& v) const;
     void operator()(const vec3d& v, vec3d& ans) const;
+
+    Ray operator()(const Ray& r) const;
+    void operator()(const Ray& r, Ray& ans) const;
 
     vec3d multVecMatrix(const vec3d& v) const;
     vec3d multDirMatrix(const vec3d& src) const;

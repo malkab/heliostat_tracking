@@ -1,6 +1,6 @@
-#include "Transform.h"
-
 #include "gcf.h"
+#include "Ray.h"
+#include "Transform.h"
 
 const Transform Transform::Identity(new Matrix4x4());
 
@@ -140,6 +140,69 @@ vec3d Transform::transformInverseNormal(const vec3d& n) const
     );
 }
 
+Ray Transform::transformDirect(const Ray& r) const
+{
+    const double* t0 = m_mdir->m[0];
+    const double* t1 = m_mdir->m[1];
+    const double* t2 = m_mdir->m[2];
+
+    const vec3d& p = r.origin;
+    vec3d o(
+        t0[0]*p.x + t0[1]*p.y + t0[2]*p.z + t0[3],
+        t1[0]*p.x + t1[1]*p.y + t1[2]*p.z + t1[3],
+        t2[0]*p.x + t2[1]*p.y + t2[2]*p.z + t2[3]
+    );
+
+    const vec3d& v = r.direction();
+    vec3d d(
+        t0[0]*v.x + t0[1]*v.y + t0[2]*v.z,
+        t1[0]*v.x + t1[1]*v.y + t1[2]*v.z,
+        t2[0]*v.x + t2[1]*v.y + t2[2]*v.z
+    );
+//    const double* ti0 = m_minv->m[0];
+//    const double* ti1 = m_minv->m[1];
+//    const double* ti2 = m_minv->m[2];
+//    Vector3D d(
+//        ti0[0]*v.x + ti1[0]*v.y + ti2[0]*v.z,
+//        ti0[1]*v.x + ti1[1]*v.y + ti2[1]*v.z,
+//        ti0[2]*v.x + ti1[2]*v.y + ti2[2]*v.z
+//    );
+
+    return Ray(o, d, r.tMin, r.tMax);
+}
+
+Ray Transform::transformInverse(const Ray& r) const
+{
+    const double* t0 = m_minv->m[0];
+    const double* t1 = m_minv->m[1];
+    const double* t2 = m_minv->m[2];
+
+    const vec3d& p = r.origin;
+    vec3d o(
+        t0[0]*p.x + t0[1]*p.y + t0[2]*p.z + t0[3],
+        t1[0]*p.x + t1[1]*p.y + t1[2]*p.z + t1[3],
+        t2[0]*p.x + t2[1]*p.y + t2[2]*p.z + t2[3]
+    );
+
+    const vec3d& v = r.direction();
+    vec3d d(
+        t0[0]*v.x + t0[1]*v.y + t0[2]*v.z,
+        t1[0]*v.x + t1[1]*v.y + t1[2]*v.z,
+        t2[0]*v.x + t2[1]*v.y + t2[2]*v.z
+    );
+//    const double* ti0 = m_mdir->m[0];
+//    const double* ti1 = m_mdir->m[1];
+//    const double* ti2 = m_mdir->m[2];
+//    Vector3D d(
+//        ti0[0]*v.x + ti1[0]*v.y + ti2[0]*v.z,
+//        ti0[1]*v.x + ti1[1]*v.y + ti2[1]*v.z,
+//        ti0[2]*v.x + ti1[2]*v.y + ti2[2]*v.z
+//    );
+
+    return Ray(o, d, r.tMin, r.tMax);
+}
+
+
 vec3d Transform::operator()(const vec3d& v) const
 {
     return vec3d(
@@ -154,6 +217,26 @@ void Transform::operator()(const vec3d& v, vec3d& ans) const
     ans.x = m_mdir->m[0][0]*v.x + m_mdir->m[0][1]*v.y + m_mdir->m[0][2]*v.z;
     ans.y = m_mdir->m[1][0]*v.x + m_mdir->m[1][1]*v.y + m_mdir->m[1][2]*v.z;
     ans.z = m_mdir->m[2][0]*v.x + m_mdir->m[2][1]*v.y + m_mdir->m[2][2]*v.z;
+}
+
+Ray Transform::operator()(const Ray& r) const
+{
+    Ray ans;
+    ans.origin = transformPoint(r.origin);
+    vec3d d = transformVector(r.direction());
+    ans.setDirection(d);
+    ans.tMin = r.tMin;
+    ans.tMax = r.tMax;
+    return ans;
+}
+
+void Transform::operator()(const Ray& r, Ray& ans) const
+{
+    ans.origin = transformPoint(r.origin);
+    vec3d d = transformVector(r.direction());
+    ans.setDirection(d);
+    ans.tMin = r.tMin;
+    ans.tMax = r.tMax;
 }
 
 bool Transform::operator==(const Transform& t) const

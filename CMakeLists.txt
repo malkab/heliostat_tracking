@@ -19,12 +19,13 @@ set(Headers
     ./include/Interval.h
     ./include/IntervalPeriodic.h
     ./include/Matrix4x4.h
+    ./include/Ray.h
     ./include/TrackerArmature2A.h 
     ./include/TrackerSolver2A.h
     ./include/TrackerTarget.h
     ./include/Transform.h          
     ./include/vec2d.h
-    ./include/vec3d.h        
+    ./include/vec3d.h  
 )
 
 set(Sources

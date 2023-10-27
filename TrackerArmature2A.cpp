@@ -13,7 +13,7 @@ TrackerArmature2A::TrackerArmature2A()
     m_secondaryAngles = vec2d(-90.f, 90.f);
 
     m_facetShift = vec3d(0.f, 0.f, 0.f);
-    m_facetNormal = vec3d(0.f, 0.f, 1.f);
+    m_facetNormal = vec3d(0.f, 0.f, -1.f);
 
     m_anglesDefault = vec2d(0., 0.);
 

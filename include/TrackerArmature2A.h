@@ -10,7 +10,7 @@ class TrackerArmature2A
 {
 public:
     TrackerArmature2A();
-    ~TrackerArmature2A(); // should be protected later
+    ~TrackerArmature2A();
 
     // Getter functions
     const vec3d& get_primaryShift() const { return m_primaryShift; }
@@ -72,4 +72,6 @@ protected:
     vec2d m_angles0;
 
     TrackerSolver2A* m_solver;
+
+
 };
