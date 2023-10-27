@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     // Global coordinate system x > 0 towards East, y > 0 towards North, z > 0 towards Zenith
     // Positive angles in the counterclockwise direction according to the direction of the rotation axis
-    
+
     // Setting up the tracker armature
     TrackerArmature2A armature;
    
@@ -87,6 +87,7 @@ int main(int argc, char *argv[])
     ComputeResults(heliostatLocation, sunVector, target, armature, facetReferencePoint, heliostatNormal, intersectionAtTarget);
     PrintingResults(armature, heliostatLocation, target, vec2d(sun_azimuth, sun_elevation), facetReferencePoint, heliostatNormal, intersectionAtTarget);
 
+    std::cout << "DONE" <<std::endl;
     return 1;
 }
 
@@ -151,6 +152,4 @@ void PrintingResults(const TrackerArmature2A& armature, const Transform& locatio
     std::cout << "      Facet reference point     : " << facetReferencePoint << std::endl;
     std::cout << "      Facet normal              : " << facetNormal << std::endl;
     std::cout << "      Reflected ray intersection with target: " << intersectAtTarget << std::endl;
-
-    std::cout << "DONE" <<std::endl;
 }
