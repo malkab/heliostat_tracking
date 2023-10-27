@@ -16,24 +16,26 @@ int main(int argc, char *argv[])
 {
     // Example 1 - Azimuth - elevation heliostat with the axes crossing at the center
 
+    // Global coordinate system x > 0 towards East, y > 0 towards North, z > 0 towards Zenith
+    // Positive angles in the counterclockwise direction according to the direction of the rotation axis
+    
     // Setting up the tracker armature
     TrackerArmature2A armature;
    
-    armature.set_primaryShift(vec3d(0.0, 0.0, 2.0)); // end point of the primary shift, i.e., the origin of the first axis of rotation.
+    armature.set_primaryShift(vec3d(0.0, 0.0, 2.0)); // primary shift vector.
     armature.set_primaryAxis(vec3d(0.0, 0.0, -1.0)) ; // unit vector in the direction of the first axis of rotation.
     armature.set_primaryAngles(vec2d(0.0, 360.0)); // min and max rotation angles around the primary axis of rotation in degrees.
 
-    armature.set_secondaryShift(vec3d(0.0, 0.0, 0.0)); // end point of the secondary shift, i.e., origin of the second axis of rotation.
-    armature.set_secondaryAxis(vec3d(1.0, 0.0, 0.0)); // unit vector in the direction of the second axis of rotation (positive angles couterclockwise).
+    armature.set_secondaryShift(vec3d(0.0, 0.0, 0.0)); // secondary shift vector.
+    armature.set_secondaryAxis(vec3d(1.0, 0.0, 0.0)); // unit vector in the direction of the second axis of rotation.
     armature.set_secondaryAngles(vec2d(-90.0, 90.0)); // min and max rotation angles around the secondary axis of rotation in degrees.
 
-    armature.set_facetShift(vec3d(0., 0., 0.)); // end point of the facet shift, i.e., centre of the facet in the default position.
+    armature.set_facetShift(vec3d(0., 0., 0.)); // facet shift vector.
     armature.set_facetNormal(vec3d(0.0, 1.0, 0.0)); // unit vector in the direction of the facet's normal when in default position.
 
     armature.set_anglesDefault(vec2d(0.0, 0.0)); // values of the rotation angles in the default position in degrees.
 
     // Defining the scene. 
-    // Assuming global coordinate system x > 0 towards East, y > 0 towards North, z > 0 towards Zenith 
     TrackerTarget* target = new TrackerTarget;
     target->aimingPoint = vec3d(0.0, 0.0, 102.0); // target 100 above the pivot point of the heliostat
 
