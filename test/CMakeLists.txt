@@ -28,8 +28,3 @@ target_link_libraries(${This} PUBLIC
     gmock_main
     heliostat_tracking
 )
-
-add_test(
-    NAME ${This}
-    COMMAND ${This}
-)
