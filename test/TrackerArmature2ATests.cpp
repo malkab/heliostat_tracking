@@ -24,7 +24,7 @@ TEST_F(TrackerArmature2ATest, DefaultConstructorPrimaryAxisInitialization) {
 }
 
 TEST_F(TrackerArmature2ATest, DefaultConstructorPrimaryAnglesInitialization) {
-    EXPECT_EQ(m_pArmature->get_primaryAngles(), vec2d(-90.f, 90.f));
+    EXPECT_EQ(m_pArmature->get_primaryAngles(), vec2d(-180.f, 180.f));
 }
 
 TEST_F(TrackerArmature2ATest, DefaultConstructorSecondaryShiftInitialization) {
@@ -44,7 +44,7 @@ TEST_F(TrackerArmature2ATest, DefaultConstructorFacetShiftInitialization) {
 }
 
 TEST_F(TrackerArmature2ATest, DefaultConstructorFacetNormalInitialization) {
-    EXPECT_EQ(m_pArmature->get_facetNormal(), vec3d(0.f, 0.f, 1.f));
+    EXPECT_EQ(m_pArmature->get_facetNormal(), vec3d(0.f, 1.f, 0.f));
 }
 
 TEST_F(TrackerArmature2ATest, DefaultConstructorAnglesDefaultInitialization) {
