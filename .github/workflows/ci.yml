@@ -16,7 +16,7 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
     - name: Configure CMake Windows
-      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 16 2019"
+      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022"
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config Release
     - name: Upload Artifact
