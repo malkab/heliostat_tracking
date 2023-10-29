@@ -6,14 +6,14 @@ TrackerArmature2A::TrackerArmature2A()
 {
     m_primaryShift = vec3d(0.f, 0.f, 0.f); // original value vec3d(0.f, 0.f, 1.f)
     m_primaryAxis = vec3d(0.f, 0.f, -1.f); // azimuth original value vec3d(0.f, 0.f, -1.f)
-    m_primaryAngles = vec2d(-90.f, 90.f);
+    m_primaryAngles = vec2d(-180.f, 180.f);
 
     m_secondaryShift = vec3d(0.f, 0.f, 0.f);
     m_secondaryAxis = vec3d(1.f, 0.f, 0.f); // elevation
     m_secondaryAngles = vec2d(-90.f, 90.f);
 
     m_facetShift = vec3d(0.f, 0.f, 0.f);
-    m_facetNormal = vec3d(0.f, 0.f, -1.f);
+    m_facetNormal = vec3d(0.f, 1.f, 0.f);
 
     m_anglesDefault = vec2d(0., 0.);
 
