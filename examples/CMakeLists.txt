@@ -6,5 +6,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # For each example, create an executable and link to the static library
 add_executable(azimuth_elevation azimuth_elevation/main1.cpp)
+add_executable(heliostat_studio heliostat_studio/main2.cpp)
 
 target_link_libraries(azimuth_elevation heliostat_tracking)
+target_link_libraries(heliostat_studio heliostat_tracking)
