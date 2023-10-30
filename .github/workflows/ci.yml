@@ -21,11 +21,24 @@ jobs:
       run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022"
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config Release
-    - name: Upload Artifact
+    - name: Upload Static Library
       uses: actions/upload-artifact@v3
       with:
-        name: heliostat-tracking-windows
-        path: ${{github.workspace}}/build/Release/*.exe
+        name: libheliostat_tracking-windows
+        path: ${{github.workspace}}/build/heliostat_tracking.lib
+
+    - name: Upload Azimuth Elevation Program
+      uses: actions/upload-artifact@v3
+      with:
+        name: azimuth_elevation-windows
+        path: ${{github.workspace}}/build/examples/azimuth_elevation.exe
+
+    - name: Upload Heliostat Studio Program
+      uses: actions/upload-artifact@v3
+      with:
+        name: heliostat_studio-windows
+        path: ${{github.workspace}}/build/examples/heliostat_studio.exe
+
 
   build-macos:
     runs-on: macos-latest
@@ -39,8 +52,22 @@ jobs:
       run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Unix Makefiles"
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config Release
-    - name: Upload Artifact
+      
+    # Artifact upload steps
+    - name: Upload Static Library
       uses: actions/upload-artifact@v3
       with:
-        name: heliostat-tracking-macos
-        path: ${{github.workspace}}/build/Release/heliostat_tracking
+        name: libheliostat_tracking-macos
+        path: ${{github.workspace}}/build/libheliostat_tracking.a
+
+    - name: Upload Azimuth Elevation Program
+      uses: actions/upload-artifact@v3
+      with:
+        name: azimuth_elevation-macos
+        path: ${{github.workspace}}/build/examples/azimuth_elevation
+
+    - name: Upload Heliostat Studio Program
+      uses: actions/upload-artifact@v3
+      with:
+        name: heliostat_studio-macos
+        path: ${{github.workspace}}/build/examples/heliostat_studio
