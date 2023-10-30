@@ -381,7 +381,7 @@ TEST_F(Vec3dTest, StaticUtilityMethods) {
     // Testing directionAE method
     // This is a tricky method to test due to trigonometry. A simple test might involve known inputs and outputs.
     // For simplicity's sake, let's just pick azimuth = 0 and elevation = pi/2, which should yield UnitZ.
-    vec3d dir_vec = vec3d::directionAE(0.0, M_PI/2.0);
+    vec3d dir_vec = vec3d::directionAE(0.0, Pi/2.0);
     EXPECT_TRUE(dir_vec == vec3d::UnitZ);  // Should equal UnitZ
 }
 
