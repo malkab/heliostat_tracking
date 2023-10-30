@@ -31,6 +31,8 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Clone Google Test
+      run:  git clone https://github.com/google/googletest.git googletest    
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
     - name: Configure CMake macOS
