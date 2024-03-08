@@ -56,7 +56,7 @@ set(Sources
     gfc.cpp
     Interval.cpp
     IntervalPeriodic.cpp
-    MathematicaWrapper.cpp
+#    MathematicaWrapper.cpp
     Matrix4x4.cpp
     TrackerTarget.cpp
     TrackerArmature2A.cpp
@@ -66,8 +66,16 @@ set(Sources
     vec3d.cpp
 )
 
-add_library(${This} SHARED ${Sources} ${Headers}) 
-#target_compile_definitions(${This} PRIVATE HELIOSTAT_TRACKING_EXPORTS)
+# If Mathematica is found, include the file in the build process
+if(Mathematica_INCLUDE_DIR)
+    add_library(${This} SHARED ${Sources} ${Headers} MathematicaWrapper.cpp)
+else()
+    add_library(${This} SHARED ${Sources} ${Headers})
+endif()
+
+
+# add_library(${This} SHARED ${Sources} ${Headers}) 
+# target_compile_definitions(${This} PRIVATE HELIOSTAT_TRACKING_EXPORTS)
 
 include(GenerateExportHeader)
 generate_export_header(${This})
