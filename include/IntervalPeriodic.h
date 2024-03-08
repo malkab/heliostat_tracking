@@ -2,7 +2,7 @@
 
 #include "Interval.h"
 
-class IntervalPeriodic: public Interval
+class HELIOSTAT_TRACKING_EXPORT IntervalPeriodic: public Interval
 {
 public:
     IntervalPeriodic() : Interval() {}

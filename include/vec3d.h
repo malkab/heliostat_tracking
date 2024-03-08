@@ -3,7 +3,9 @@
 #include "vec2d.h"
 #include <string>
 
-struct vec3d
+#include "heliostat_tracking_export.h"
+
+struct HELIOSTAT_TRACKING_EXPORT vec3d
 {
     vec3d(double x = 0., double y = 0., double z = 0.):
         x(x), y(y), z(z) {}
@@ -229,4 +231,4 @@ inline vec3d vec3d::findOrthogonal() const
         return vec3d(y, -x, 0.);
 }
 
-std::ostream& operator<<(std::ostream& os, const vec3d& vector);
+HELIOSTAT_TRACKING_EXPORT std::ostream& operator<<(std::ostream& os, const vec3d& vector);

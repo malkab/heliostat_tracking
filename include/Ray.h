@@ -1,9 +1,10 @@
 #pragma once
 
+#include "heliostat_tracking_export.h"
 #include "gcf.h"
 #include "vec3d.h"
 
-class Ray
+class HELIOSTAT_TRACKING_EXPORT Ray
 {
 public:
     Ray():

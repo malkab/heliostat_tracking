@@ -3,7 +3,9 @@
 #include <cmath>
 #include <iostream>
 
-struct vec2d
+#include "heliostat_tracking_export.h"
+
+struct HELIOSTAT_TRACKING_EXPORT vec2d
 {
     vec2d(double x = 0., double y = 0):
         x(x), y(y) {}
@@ -172,4 +174,4 @@ inline double cross(const vec2d& a, const vec2d& b)
 }
 
 // Stream output
-std::ostream& operator<<(std::ostream& os, const vec2d& vector);
+HELIOSTAT_TRACKING_EXPORT std::ostream& operator<<(std::ostream& os, const vec2d& vector);

@@ -1,11 +1,12 @@
 #pragma once
 
+#include "heliostat_tracking_export.h"
 #include "vec3d.h"
 #include "Matrix4x4.h"
 
 class Ray;
 
-class Transform
+class HELIOSTAT_TRACKING_EXPORT Transform
 {
 public:
     Transform();
@@ -62,4 +63,4 @@ private:
     std::shared_ptr<Matrix4x4> m_minv;
 };
 
-std::ostream& operator<<(std::ostream& os, const Transform& tran);
+HELIOSTAT_TRACKING_EXPORT std::ostream& operator<<(std::ostream& os, const Transform& tran);

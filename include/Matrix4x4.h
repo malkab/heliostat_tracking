@@ -3,7 +3,9 @@
 #include <memory>
 #include <iostream>
 
-class Matrix4x4
+#include "heliostat_tracking_export.h"
+
+class HELIOSTAT_TRACKING_EXPORT Matrix4x4
 {
 public:
     Matrix4x4();
@@ -25,5 +27,5 @@ public:
     double m[4][4];
 };
 
-std::shared_ptr<Matrix4x4> multiply(const Matrix4x4& m1, const Matrix4x4& m2);
-std::ostream& operator<<(std::ostream& os, const Matrix4x4& matrix);
+HELIOSTAT_TRACKING_EXPORT std::shared_ptr<Matrix4x4> multiply(const Matrix4x4& m1, const Matrix4x4& m2);
+HELIOSTAT_TRACKING_EXPORT std::ostream& operator<<(std::ostream& os, const Matrix4x4& matrix);

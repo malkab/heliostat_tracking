@@ -1,11 +1,13 @@
 #pragma once
 
+#include "heliostat_tracking_export.h"
 #include "Transform.h"
 #include "IntervalPeriodic.h"
 #include "gcf.h"
 
 
-struct ArmatureJoint
+
+struct HELIOSTAT_TRACKING_EXPORT ArmatureJoint
 {
     ArmatureJoint(
         const vec3d& shift = vec3d::Zero,
@@ -20,7 +22,7 @@ struct ArmatureJoint
 };
 
 
-struct ArmatureVertex
+struct HELIOSTAT_TRACKING_EXPORT ArmatureVertex
 {
     ArmatureVertex(
         const vec3d& shift = vec3d::Zero,

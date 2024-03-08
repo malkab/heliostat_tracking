@@ -2,11 +2,13 @@
 
 #include <cstddef> 
 #include<vector>
+
+#include "heliostat_tracking_export.h"
 #include "TrackerArmature2A.h"
 
 typedef vec2d Angles;
 
-class TrackerSolver2A
+class HELIOSTAT_TRACKING_EXPORT TrackerSolver2A
 {
 public:
     TrackerSolver2A(TrackerArmature2A* armature) : m_armature(armature) {}

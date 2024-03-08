@@ -1,6 +1,8 @@
 #pragma once
 
-class Interval
+#include "heliostat_tracking_export.h"
+
+class HELIOSTAT_TRACKING_EXPORT Interval
 {
 public:
     Interval();

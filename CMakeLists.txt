@@ -8,10 +8,33 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Make default visibility hidden for all targets
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+
 enable_testing()
 add_subdirectory(googletest)
 
-include_directories(./include ./googletest/googlemock/include)
+include_directories(./include)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})  # Include the binary directory where the export header is generated
+include_directories(./googletest/googlemock/include)
+
+# Search for Mathematica include directory
+find_path(Mathematica_INCLUDE_DIR
+    NAMES WolframLibrary.h
+#    PATH_SUFFIXES "SystemFiles/IncludeFiles/C"
+    PATHS "C:/Program Files/Wolfram Research/Mathematica/13.3/SystemFiles/IncludeFiles/C"
+    PATHS "/Applications/Mathematica.app/Contents/SystemFiles/IncludeFiles/C"
+)
+
+# Check if Mathematica include directory was found
+if(Mathematica_INCLUDE_DIR)
+    include_directories(${Mathematica_INCLUDE_DIR})
+    message(STATUS "Found Mathematica include directory: ${Mathematica_INCLUDE_DIR}")
+else()
+    message(FATAL_ERROR "Mathematica include directory not found. Please specify it manually.")
+endif()
+
 
 set(Headers 
     ./include/ArmatureJoint.h
@@ -33,6 +56,7 @@ set(Sources
     gfc.cpp
     Interval.cpp
     IntervalPeriodic.cpp
+    MathematicaWrapper.cpp
     Matrix4x4.cpp
     TrackerTarget.cpp
     TrackerArmature2A.cpp
@@ -41,8 +65,12 @@ set(Sources
     vec2d.cpp
     vec3d.cpp
 )
-    add_library(${This} STATIC ${Sources} ${Headers})
 
-    add_subdirectory(test)
+add_library(${This} SHARED ${Sources} ${Headers}) 
+#target_compile_definitions(${This} PRIVATE HELIOSTAT_TRACKING_EXPORTS)
+
+include(GenerateExportHeader)
+generate_export_header(${This})
     
-    add_subdirectory(examples)
+add_subdirectory(test)   
+add_subdirectory(examples)

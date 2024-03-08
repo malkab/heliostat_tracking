@@ -4,6 +4,8 @@
 #include <cmath>
 #include <string>
 
+#include "heliostat_tracking_export.h"
+
 // global constants and functions
 namespace gcf
 {
@@ -19,7 +21,7 @@ namespace gcf
         return std::abs(x - y) < std::numeric_limits<T>::epsilon();
     }
 
-    double normalizeAngle(double phi, double phi0);
-    void SevereError(std::string errorMessage);
+    HELIOSTAT_TRACKING_EXPORT double normalizeAngle(double phi, double phi0);
+    HELIOSTAT_TRACKING_EXPORT void SevereError(std::string errorMessage);
  
 }

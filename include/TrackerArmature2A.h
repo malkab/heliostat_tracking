@@ -1,12 +1,13 @@
 #pragma once
 
+#include "heliostat_tracking_export.h"
 #include "ArmatureJoint.h"
 
 struct vec3d;
 class TrackerTarget;
 class TrackerSolver2A;
 
-class TrackerArmature2A
+class HELIOSTAT_TRACKING_EXPORT TrackerArmature2A
 {
 public:
     TrackerArmature2A();
