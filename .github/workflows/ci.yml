@@ -18,27 +18,27 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
     - name: Configure CMake Windows
-      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022"
+      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022" -DBUILD_SHARED_LIBS=ON
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config Release
       
-    - name: Upload Static Library
+    - name: Upload Dynamic Library
       uses: actions/upload-artifact@v3
       with:
-        name: libheliostat_tracking-windows
-        path: ${{github.workspace}}\build\Release\heliostat_tracking.lib
+        name: heliostat_tracking-windows
+        path: ${{github.workspace}}/build/Release/heliostat_tracking.dll
 
     - name: Upload Azimuth Elevation Program
       uses: actions/upload-artifact@v3
       with:
         name: azimuth_elevation-windows
-        path: ${{github.workspace}}\build\examples\Release\azimuth_elevation.exe
+        path: ${{github.workspace}}/build/examples/Release/azimuth_elevation.exe
 
     - name: Upload Heliostat Studio Program
       uses: actions/upload-artifact@v3
       with:
         name: heliostat_studio-windows
-        path: ${{github.workspace}}\build\examples\Release\heliostat_studio.exe
+        path: ${{github.workspace}}/build/examples/Release/heliostat_studio.exe
 
 
   build-macos:
@@ -50,16 +50,16 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
     - name: Configure CMake macOS
-      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Unix Makefiles"
+      run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Unix Makefiles" -DBUILD_SHARED_LIBS=ON
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config Release
 
     # Artifact upload steps
-    - name: Upload Static Library
+    - name: Upload Dynamic Library
       uses: actions/upload-artifact@v3
       with:
-        name: libheliostat_tracking-macos
-        path: ${{github.workspace}}/build/libheliostat_tracking.a
+        name: heliostat_tracking-macos
+        path: ${{github.workspace}}/build/libheliostat_tracking.dylib
 
     - name: Upload Azimuth Elevation Program
       uses: actions/upload-artifact@v3
