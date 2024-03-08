@@ -39,7 +39,6 @@ set(Sources
     gfc.cpp
     Interval.cpp
     IntervalPeriodic.cpp
-#    MathematicaWrapper.cpp
     Matrix4x4.cpp
     TrackerTarget.cpp
     TrackerArmature2A.cpp
@@ -52,7 +51,8 @@ set(Sources
 # Search for Mathematica include directory
 find_path(Mathematica_INCLUDE_DIR
     NAMES WolframLibrary.h
-#    PATH_SUFFIXES "SystemFiles/IncludeFiles/C"
+
+    # Potential paths where WolframLibrary.h can be found
     PATHS "C:/Program Files/Wolfram Research/Mathematica/13.3/SystemFiles/IncludeFiles/C"
     PATHS "/Applications/Mathematica.app/Contents/SystemFiles/IncludeFiles/C"
 )
@@ -68,10 +68,6 @@ else()
     message(STATUS "Not generating Mathematica wrappers")
     add_library(${This} SHARED ${Sources} ${Headers})
 endif()
-
-
-# add_library(${This} SHARED ${Sources} ${Headers}) 
-# target_compile_definitions(${This} PRIVATE HELIOSTAT_TRACKING_EXPORTS)
 
 include(GenerateExportHeader)
 generate_export_header(${This})
