@@ -19,23 +19,6 @@ include_directories(./include)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})  # Include the binary directory where the export header is generated
 include_directories(./googletest/googlemock/include)
 
-# Search for Mathematica include directory
-find_path(Mathematica_INCLUDE_DIR
-    NAMES WolframLibrary.h
-#    PATH_SUFFIXES "SystemFiles/IncludeFiles/C"
-    PATHS "C:/Program Files/Wolfram Research/Mathematica/13.3/SystemFiles/IncludeFiles/C"
-    PATHS "/Applications/Mathematica.app/Contents/SystemFiles/IncludeFiles/C"
-)
-
-# Check if Mathematica include directory was found
-if(Mathematica_INCLUDE_DIR)
-    include_directories(${Mathematica_INCLUDE_DIR})
-    message(STATUS "Found Mathematica include directory: ${Mathematica_INCLUDE_DIR}")
-else()
-    message(FATAL_ERROR "Mathematica include directory not found. Please specify it manually.")
-endif()
-
-
 set(Headers 
     ./include/ArmatureJoint.h
     ./include/gcf.h
@@ -66,10 +49,23 @@ set(Sources
     vec3d.cpp
 )
 
+# Search for Mathematica include directory
+find_path(Mathematica_INCLUDE_DIR
+    NAMES WolframLibrary.h
+#    PATH_SUFFIXES "SystemFiles/IncludeFiles/C"
+    PATHS "C:/Program Files/Wolfram Research/Mathematica/13.3/SystemFiles/IncludeFiles/C"
+    PATHS "/Applications/Mathematica.app/Contents/SystemFiles/IncludeFiles/C"
+)
+
 # If Mathematica is found, include the file in the build process
 if(Mathematica_INCLUDE_DIR)
+    include_directories(${Mathematica_INCLUDE_DIR})
+    message(STATUS "Found Mathematica include directory: ${Mathematica_INCLUDE_DIR}")
+    message(STATUS "Generating Mathematica wrappers")
     add_library(${This} SHARED ${Sources} ${Headers} MathematicaWrapper.cpp)
 else()
+    message(STATUS "Not found Mathematica include directory. Assuming Mathematica is not installed in the computer")
+    message(STATUS "Not generating Mathematica wrappers")
     add_library(${This} SHARED ${Sources} ${Headers})
 endif()
 
