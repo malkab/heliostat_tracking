@@ -32,6 +32,6 @@
 *.app
 
 build/
-.vscode/
 googletest/
+.vscode/
 .DS_Store
