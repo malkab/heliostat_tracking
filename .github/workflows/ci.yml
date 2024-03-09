@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config Release
       - name: Run Tests
-        run: ${{github.workspace}}/build/test/Release/heliostat_tracking_tests.exe
+        run: ${{github.workspace}}\build\test\Release\heliostat_tracking_tests.exe
       - name: Upload Dynamic Library
         uses: actions/upload-artifact@v3
         with:
