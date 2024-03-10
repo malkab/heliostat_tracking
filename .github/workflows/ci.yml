@@ -18,16 +18,20 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Install CMake on macOS
+      - name: Setup dependencies (macOS)
         if: startsWith(matrix.os, 'macos')
         run: brew install cmake
 
-      - name: Install CMake on Windows
+      - name: Setup dependencies (Windows)
         if: startsWith(matrix.os, 'windows')
         run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
 
+      # Cloning Google Test directly into the project
+      - name: Clone Google Test
+        run: git clone https://github.com/google/googletest.git external/googletest
+
       - name: Configure CMake
-        run: cmake -S . -B build
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.config }}
@@ -35,7 +39,7 @@ jobs:
       - name: Run Tests
         run: |
           if [ "${{ matrix.os }}" == "windows-latest" ]; then
-            build/${{ matrix.config }}/heliostat_tracking_tests.exe
+            ./build/${{ matrix.config }}/heliostat_tracking_tests.exe
           else
-            build/${{ matrix.config }}/heliostat_tracking_tests
+            ./build/${{ matrix.config }}/heliostat_tracking_tests
         shell: bash
