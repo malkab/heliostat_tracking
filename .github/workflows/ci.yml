@@ -9,40 +9,26 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [windows-latest, macos-latest]
-        include:
-          - os: windows-latest
-            cmake-options: -G "Visual Studio 17 2022"
-          - os: macos-latest
-            cmake-options: -G "Unix Makefiles"
+        config: [Release, Debug] # If you want to build both configurations
     runs-on: ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: 'recursive' # Ensure submodules are checked out if Google Test is a submodule
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'  # This will fetch submodules
 
-      - name: Setup CMake (Windows)
-        if: matrix.os == 'windows-latest'
-        run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+    - name: Configure CMake
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
 
-      - name: Setup CMake (macOS)
-        if: matrix.os == 'macos-latest'
-        run: brew install cmake
+    - name: Build
+      run: cmake --build build --config ${{ matrix.config }}
 
-      - name: Clone Google Test
-        run: git clone https://github.com/google/googletest.git external/googletest
-
-      - name: Configure CMake
-        run: cmake -S . -B build ${{ matrix.cmake-options }}
-
-      - name: Build
-        run: cmake --build build --config Release
-
-      - name: Run Tests (Windows)
-        if: matrix.os == 'windows-latest'
-        run: .\build\Release\heliostat_tracking_tests.exe
-
-      - name: Run Tests (macOS)
-        if: matrix.os == 'macos-latest'
-        run: ./build/Release/heliostat_tracking_tests
+    - name: Run Tests
+      run: |
+        if [ "${{ matrix.os }}" == "windows-latest" ]; then
+          build/${{ matrix.config }}/heliostat_tracking_tests.exe
+        else
+          build/${{ matrix.config }}/heliostat_tracking_tests
