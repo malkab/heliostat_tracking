@@ -15,54 +15,65 @@ jobs:
           submodules: 'recursive' # Ensure submodules are correctly checked out if used
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1.8.0
-      - name: Configure CMake (Windows)
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -DBUILD_SHARED_LIBS=ON
-      - name: Build (Windows)
-        run: cmake --build build --config Release
-      - name: Run Tests (Windows)
-        run: .\build\Release\heliostat_tracking_tests.exe
-
-      - name: Upload Dynamic Library (Windows)
+      - name: Clone Google Test
+        run:  git clone https://github.com/google/googletest.git googletest 
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{github.workspace}}/build
+      - name: Configure CMake Windows
+        run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022" -DBUILD_SHARED_LIBS=ON
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config Release
+      - name: Run Tests
+        run: ${{github.workspace}}/build/Release/heliostat_tracking_tests.exe
+        
+      - name: Upload Dynamic Library
         uses: actions/upload-artifact@v3
         with:
           name: heliostat_tracking-windows
-          path: build/Release/heliostat_tracking.dll
-      - name: Upload Azimuth Elevation Program (Windows)
+          path: ${{github.workspace}}/build/Release/heliostat_tracking.dll
+
+      - name: Upload Azimuth Elevation Program
         uses: actions/upload-artifact@v3
         with:
           name: azimuth_elevation-windows
-          path: build/Release/azimuth_elevation.exe
-      - name: Upload Heliostat Studio Program (Windows)
+          path: ${{github.workspace}}/build/Release/azimuth_elevation.exe
+
+      - name: Upload Heliostat Studio Program
         uses: actions/upload-artifact@v3
         with:
           name: heliostat_studio-windows
-          path: build/Release/heliostat_studio.exe
+          path: ${{github.workspace}}/build/Release/heliostat_studio.exe
 
   build-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: 'recursive' # Ensure submodules are correctly checked out if used
-      - name: Configure CMake (macOS)
-        run: cmake -S . -B build -G "Unix Makefiles" -DBUILD_SHARED_LIBS=ON
-      - name: Build (macOS)
-        run: cmake --build build --config Release
-      - name: Run Tests (macOS)
-        run: ./build/Release/heliostat_tracking_tests
+      - name: Clone Google Test
+        run:  git clone https://github.com/google/googletest.git googletest    
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{github.workspace}}/build
+      - name: Configure CMake macOS
+        run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Unix Makefiles" -DBUILD_SHARED_LIBS=ON
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config Release
+      - name: Run Tests
+        run: ${{github.workspace}}/build/Release/heliostat_tracking_tests
 
-      - name: Upload Dynamic Library (macOS)
+      # Artifact upload steps
+      - name: Upload Dynamic Library
         uses: actions/upload-artifact@v3
         with:
           name: heliostat_tracking-macos
-          path: build/Release/libheliostat_tracking.dylib
-      - name: Upload Azimuth Elevation Program (macOS)
+          path: ${{github.workspace}}/build/Release/libheliostat_tracking.dylib
+
+      - name: Upload Azimuth Elevation Program
         uses: actions/upload-artifact@v3
         with:
           name: azimuth_elevation-macos
-          path: build/Release/azimuth_elevation
-      - name: Upload Heliostat Studio Program (macOS)
+          path: ${{github.workspace}}/build/Release/azimuth_elevation
+
+      - name: Upload Heliostat Studio Program
         uses: actions/upload-artifact@v3
         with:
           name: heliostat_studio-macos
-          path: build/Release/heliostat_studio
+          path: ${{github.workspace}}/build/Release/heliostat_studio
