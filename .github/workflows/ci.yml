@@ -23,6 +23,11 @@ jobs:
         run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022" -DBUILD_SHARED_LIBS=ON
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config Release -- /verbosity:detailed
+      - name: Add DLL path to PATH
+        run: |
+          $env:PATH += ";${{github.workspace}}\build\Release"
+          echo "Updated PATH: $env:PATH"
+        shell: pwsh
       - name: Run Tests with Verbose Output
         run: |
           ${{github.workspace}}\build\test\Release\heliostat_tracking_tests.exe --gtest_verbose=1
