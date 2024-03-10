@@ -31,17 +31,15 @@ jobs:
       - name: Upload Dynamic Library
         uses: actions/upload-artifact@v3
         with:
-          name: heliostat_tracking-windows
+          name: heliostat_tracking-${{ matrix.configuration }}-windows
           path: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_tracking.dll
-
       - name: Upload Azimuth Elevation Program
         uses: actions/upload-artifact@v3
         with:
-          name: azimuth_elevation-windows
+          name: azimuth_elevation-${{ matrix.configuration }}-windows
           path: ${{github.workspace}}/build/${{ matrix.configuration }}/azimuth_elevation.exe
-
       - name: Upload Heliostat Studio Program
         uses: actions/upload-artifact@v3
         with:
-          name: heliostat_studio-windows
+          name: heliostat_studio-${{ matrix.configuration }}-windows
           path: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_studio.exe
