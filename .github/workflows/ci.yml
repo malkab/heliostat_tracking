@@ -7,73 +7,27 @@ on:
     branches: [main]
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+        config: [Release, Debug]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: 'recursive' # Ensure submodules are correctly checked out if used
-      - name: Set up MSVC
-        uses: ilammy/msvc-dev-cmd@v1.8.0
-      - name: Clone Google Test
-        run:  git clone https://github.com/google/googletest.git googletest 
-      - name: Create Build Environment
-        run: cmake -E make_directory ${{github.workspace}}/build
-      - name: Configure CMake Windows
-        run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022" -DBUILD_SHARED_LIBS=ON
+          submodules: 'recursive'
+      - name: Set up CMake
+        uses: lukka/get-cmake@v4
+      - name: Configure CMake
+        run: cmake -S . -B build
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config Release
+        run: cmake --build build --config ${{ matrix.config }}
       - name: Run Tests
-        run: ${{github.workspace}}/build/Release/heliostat_tracking_tests.exe
-        
-      - name: Upload Dynamic Library
-        uses: actions/upload-artifact@v3
-        with:
-          name: heliostat_tracking-windows
-          path: ${{github.workspace}}/build/Release/heliostat_tracking.dll
-
-      - name: Upload Azimuth Elevation Program
-        uses: actions/upload-artifact@v3
-        with:
-          name: azimuth_elevation-windows
-          path: ${{github.workspace}}/build/Release/azimuth_elevation.exe
-
-      - name: Upload Heliostat Studio Program
-        uses: actions/upload-artifact@v3
-        with:
-          name: heliostat_studio-windows
-          path: ${{github.workspace}}/build/Release/heliostat_studio.exe
-
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Clone Google Test
-        run:  git clone https://github.com/google/googletest.git googletest    
-      - name: Create Build Environment
-        run: cmake -E make_directory ${{github.workspace}}/build
-      - name: Configure CMake macOS
-        run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Unix Makefiles" -DBUILD_SHARED_LIBS=ON
-      - name: Build
-        run: cmake --build ${{github.workspace}}/build --config Release
-      - name: Run Tests
-        run: ${{github.workspace}}/build/Release/heliostat_tracking_tests
-
-      # Artifact upload steps
-      - name: Upload Dynamic Library
-        uses: actions/upload-artifact@v3
-        with:
-          name: heliostat_tracking-macos
-          path: ${{github.workspace}}/build/Release/libheliostat_tracking.dylib
-
-      - name: Upload Azimuth Elevation Program
-        uses: actions/upload-artifact@v3
-        with:
-          name: azimuth_elevation-macos
-          path: ${{github.workspace}}/build/Release/azimuth_elevation
-
-      - name: Upload Heliostat Studio Program
-        uses: actions/upload-artifact@v3
-        with:
-          name: heliostat_studio-macos
-          path: ${{github.workspace}}/build/Release/heliostat_studio
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            ./build/${{ matrix.config }}/heliostat_tracking_tests.exe
+          else
+            ./build/${{ matrix.config }}/heliostat_tracking_tests
+          fi
+        shell: bash
