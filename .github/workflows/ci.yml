@@ -28,18 +28,8 @@ jobs:
       - name: Run Tests
         run: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_tracking_tests.exe
 
-      - name: Upload Dynamic Library
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: heliostat_tracking-${{ matrix.configuration }}-windows
-          path: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_tracking.dll
-      - name: Upload Azimuth Elevation Program
-        uses: actions/upload-artifact@v3
-        with:
-          name: azimuth_elevation-${{ matrix.configuration }}-windows
-          path: ${{github.workspace}}/build/${{ matrix.configuration }}/azimuth_elevation.exe
-      - name: Upload Heliostat Studio Program
-        uses: actions/upload-artifact@v3
-        with:
-          name: heliostat_studio-${{ matrix.configuration }}-windows
-          path: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_studio.exe
+          name: build-artifacts-${{ matrix.configuration }}-windows
+          path: ${{github.workspace}}/build/${{ matrix.configuration }}/
