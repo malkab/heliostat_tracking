@@ -18,9 +18,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
-# Enable gtest_force_shared_crt option
-# option(gtest_force_shared_crt "Use shared (DLL) run-time lib even when Google Test is built as static lib." ON)
-
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 enable_testing()
 add_subdirectory(googletest)
 
