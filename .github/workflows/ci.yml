@@ -33,10 +33,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: azimuth_elevation-windows
-          path: ${{github.workspace}}/build/examples/Release/azimuth_elevation.exe
+          path: ${{github.workspace}}/build/Release/azimuth_elevation.exe
 
       - name: Upload Heliostat Studio Program
         uses: actions/upload-artifact@v3
         with:
           name: heliostat_studio-windows
-          path: ${{github.workspace}}/build/examples/Release/heliostat_studio.exe
+          path: ${{github.workspace}}/build/Release/heliostat_studio.exe
