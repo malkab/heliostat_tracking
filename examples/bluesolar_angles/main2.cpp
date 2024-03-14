@@ -11,33 +11,36 @@ void BluesolarHeliostatArmature(TrackerArmature2A& armature);
 int main(int argc, char *argv[])
 {
      // Check if the correct number of arguments is passed
-    if (argc != 6) {
-        std::cerr << "Usage: " << argv[0] << " x y z sunAzimuth sunElevation" << std::endl;
+    if (argc != 9) {
+        std::cerr << "Usage: " << argv[0] << " xHeliostat yHeliost zHeliostat xAimingPoint yAimingPoint zAimingPoint sunAzimuth sunElevation" << std::endl;
         return 1; // Return with error code
     }
 
-    // Assuming the arguments are correctly ordered: x, y, z, sunAzimuth, sunElevation
+    // Assuming the arguments are correctly ordered: xHeliostat yHeliost zHeliostat xAimingPoint yAimingPoint zAimingPoint sunAzimuth sunElevation
     // Convert the arguments from strings to doubles
     char* end;
-    double x = std::strtod(argv[1], &end);
-    double y = std::strtod(argv[2], &end);
-    double z = std::strtod(argv[3], &end);
-    double sunAzimuth = std::strtod(argv[4], &end);
-    double sunElevation = std::strtod(argv[5], &end);
+    double xHeliostat = std::strtod(argv[1], &end);
+    double yHeliostat = std::strtod(argv[2], &end);
+    double zHeliostat = std::strtod(argv[3], &end);
+    double xAimingPoint = std::strtod(argv[4], &end);
+    double yAimingPoint = std::strtod(argv[5], &end);
+    double zAimingPoint = std::strtod(argv[6], &end);
+    double sunAzimuth = std::strtod(argv[7], &end);
+    double sunElevation = std::strtod(argv[8], &end);
 
     // Global coordinate system x > 0 towards East, y > 0 towards North, z > 0 towards Zenith
     // Positive angles in the counterclockwise direction according to the direction of the rotation axis
 
     // Defining the target
     TrackerTarget* target = new TrackerTarget;
-    target->aimingPoint = vec3d(0.0, 0.0, 20.0); // target center 20 above the ground
+    target->aimingPoint = vec3d(xAimingPoint, yAimingPoint, zAimingPoint); // target center 20 above the ground
 
     // Setting up the tracker armature for the BlueSolar heliostat
     TrackerArmature2A armature;
     BluesolarHeliostatArmature(armature);
 
     // Moving the heliostat armature to the location defined by the user
-    Transform heliostatLocation = Transform::translate(x, y, z); // actual location of a heliostat in the bluesolar field
+    Transform heliostatLocation = Transform::translate(xHeliostat, yHeliostat, zHeliostat); // actual location of a heliostat in the bluesolar field
 
     // Defining the sun vector in the global coordinate system from sun angles (azimuth and elevation) in degrees provided by the user.
     // Azimuth = 0 at North and > 0 towards East. Elevation = 0 at the horizontal plane and > 0 towards zentihg
