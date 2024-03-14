@@ -13,6 +13,7 @@ std::map<mint, TrackerArmature2A*> trackerArmature2AInstances;
 void TrackerTarget_manage_instance(WolframLibraryData libData, mbool mode, mint id);
 void TrackerArmature2A_manage_instance(WolframLibraryData libData, mbool mode, mint id);
 
+
 // Register the class managers functions in WolframLibraryData
 EXTERN_C DLLEXPORT int WolframLibrary_initialize(WolframLibraryData libData) {
     int err;
