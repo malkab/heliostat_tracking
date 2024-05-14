@@ -28,7 +28,9 @@ include_directories(./googletest/googlemock/include)
 
 set(Headers 
     ./include/ArmatureJoint.h
+    ./include/ElevationAngleKM.h
     ./include/gcf.h
+    ./include/HourAngleKM.h
     ./include/Interval.h
     ./include/IntervalPeriodic.h
     ./include/Matrix4x4.h
@@ -43,7 +45,9 @@ set(Headers
 
 set(Sources
     ArmatureJoint.cpp
+    ElevationAngleKM.cpp
     gfc.cpp
+    HourAngleKM.cpp
     Interval.cpp
     IntervalPeriodic.cpp
     Matrix4x4.cpp

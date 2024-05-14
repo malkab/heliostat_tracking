@@ -21,6 +21,9 @@ namespace gcf
         return std::abs(x - y) < std::numeric_limits<T>::epsilon();
     }
 
+    double elevationAngleActuatorLength( double elevation_angle );
+    double hourAngleActuatorLength( double hour_angle );
+    
     HELIOSTAT_TRACKING_EXPORT double normalizeAngle(double phi, double phi0);
     HELIOSTAT_TRACKING_EXPORT void SevereError(std::string errorMessage);
  

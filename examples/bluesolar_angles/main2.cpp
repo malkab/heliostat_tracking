@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
     // Computing the angles the heliostat armature should turn to reflect the direct solar radiation to the target
     armature.update(heliostatLocation, sunVector, target);
 
+    
+
     // Printing the results
     std::cout << target->angles << std::endl;
 
