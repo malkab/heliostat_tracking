@@ -5,8 +5,12 @@
 #include "TrackerTarget.h"
 #include "Ray.h"
 #include "Transform.h"
+#include "ElevationAngleKM.h"
+#include "HourAngleKM.h"
 
 void BluesolarHeliostatArmature(TrackerArmature2A& armature);
+ElevationAngleKM CreateBluesolarElevationAngleKM();
+HourAngleKM CreateBluesolarHourAngleKM();
 
 int main(int argc, char *argv[])
 {
@@ -51,12 +55,21 @@ int main(int argc, char *argv[])
     // Computing the angles the heliostat armature should turn to reflect the direct solar radiation to the target
     armature.update(heliostatLocation, sunVector, target);
 
-    
+    double elevation_angle = (target->angles.x) * gcf::degree; // radians
+    double hour_angle = (target->angles.y) * gcf::degree; // radians
+
+     // Setting up the elevation and hour angle kinematic models for the BlueSolar heliostat
+    ElevationAngleKM elevation_angle_km = CreateBluesolarElevationAngleKM();
+    HourAngleKM hour_angle_km = CreateBluesolarHourAngleKM();
+
+    double length_elevation_angle_actuator = elevation_angle_km.getActuatorLengthFromElevationAngle(elevation_angle);
+    double length_hour_angle_actuator = hour_angle_km.getActuatorLengthFromHourAngle(hour_angle);
 
     // Printing the results
-    std::cout << target->angles << std::endl;
+    std::cout << target->angles << ", " << length_elevation_angle_actuator << ", " << length_hour_angle_actuator << std::endl;
 
-    return 1;
+    delete target; 
+    return 0;
 }
 
 void BluesolarHeliostatArmature(TrackerArmature2A& armature)
@@ -73,4 +86,22 @@ void BluesolarHeliostatArmature(TrackerArmature2A& armature)
     armature.set_facetNormal(vec3d(0.0, -1.0, 0.0)); // unit vector in the direction of the facet's normal when in default position.
 
     armature.set_anglesDefault(vec2d(0.0, 0.0)); // values of the rotation angles in the default position in degrees.
+}
+
+ElevationAngleKM CreateBluesolarElevationAngleKM() {
+    double gamma = 90.75 * gcf::degree; // radians
+    double rab = 0.39254; // meters
+    double rbc = 0.0465; // meters
+    double rad = 0.43061; // meters
+    double ra = 0.082; // meters
+    double rd = 0.045; // meters
+    return ElevationAngleKM(gamma, rab, rbc, rad, ra, rd);
+}
+
+HourAngleKM CreateBluesolarHourAngleKM() {
+    double gamma = 22.0 * gcf::degree; // radians
+    double rab = 0.35033; // meters
+    double rbc = 0.0465; // meters
+    double rad = 0.36527; // meters
+    return HourAngleKM(gamma, rab, rbc, rad);
 }
