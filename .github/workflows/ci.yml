@@ -68,7 +68,7 @@ jobs:
           name: build-artifacts-${{ matrix.configuration }}-macos
           path: ${{github.workspace}}/build/${{ matrix.configuration }}
 
-build-linux:
+  build-linux:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -95,4 +95,4 @@ build-linux:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-${{ matrix.configuration }}-linux
-          path: ${{ github.workspace }}/build/${{ matrix.configuration }}          
+          path: ${{ github.workspace }}/build/${{ matrix.configuration }}
