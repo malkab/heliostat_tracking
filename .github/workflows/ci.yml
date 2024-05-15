@@ -79,6 +79,16 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev
         
+      - name: Clone Google Test
+        run: |
+          git clone https://github.com/google/googletest.git
+          cd googletest
+          git checkout release-1.12.1  # Ensure a stable release
+          mkdir build
+          cd build
+          cmake ..
+          make
+          
       - name: Create Build Environment
         run: cmake -E make_directory ${{ github.workspace }}/build
         
