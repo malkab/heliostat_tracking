@@ -14,10 +14,14 @@ jobs:
         configuration: [Release, Debug]
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1.13.0
+         with:
+          arch: x64  # Targeting 64-bit architecture
       - name: Clone Google Test
-        run:  git clone https://github.com/google/googletest.git googletest 
+        run:  git clone https://github.com/google/googletest.git googletest
+        
       - name: Create Build Environment
         run: cmake -E make_directory ${{github.workspace}}/build
       - name: Configure CMake Windows
@@ -25,6 +29,7 @@ jobs:
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config  ${{ matrix.configuration }}
+        
       - name: Run Tests
         run: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_tracking_tests.exe
 
@@ -41,18 +46,53 @@ jobs:
         configuration: [Release, Debug]
     steps:
       - uses: actions/checkout@v4
+      
       - name: Clone Google Test
-        run: git clone https://github.com/google/googletest.git googletest 
+        run: git clone https://github.com/google/googletest.git googletest
+        
       - name: Create Build Environment
         run: cmake -E make_directory ${{github.workspace}}/build
+        
       - name: Configure CMake macOS
         run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+        
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{ matrix.configuration }}
+        
       - name: Run Tests
         run: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_tracking_tests
+        
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-${{ matrix.configuration }}-macos
           path: ${{github.workspace}}/build/${{ matrix.configuration }}
+
+build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        configuration: [Release, Debug]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev
+        
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{ github.workspace }}/build
+        
+      - name: Configure CMake Linux
+        run: cmake ${{ github.workspace }} -B ${{ github.workspace }}/build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+        
+      - name: Build
+        run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.configuration }}
+        
+      - name: Run Tests
+        run: ${{ github.workspace }}/build/${{ matrix.configuration }}/heliostat_tracking_tests
+        
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-${{ matrix.configuration }}-linux
+          path: ${{ github.workspace }}/build/${{ matrix.configuration }}          
