@@ -17,15 +17,15 @@ jobs:
       
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1.13.0
-         with:
-          arch: x64 
+
       - name: Clone Google Test
         run:  git clone https://github.com/google/googletest.git googletest
         
       - name: Create Build Environment
         run: cmake -E make_directory ${{github.workspace}}/build
+        
       - name: Configure CMake Windows
-        run: cmake ${{github.workspace}} -B ${{github.workspace}}/build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+        run: cmake ${{ github.workspace }} -B ${{ github.workspace }}/build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config  ${{ matrix.configuration }}
