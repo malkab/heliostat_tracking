@@ -12,6 +12,7 @@ set(Sources
     ArmatureJointTests.cpp
     ElevationAngleKMTests.cpp
     gcfTests.cpp
+    HourAngleKMTests.cpp
     IntervalTests.cpp    
     IntervalPeriodicTests.cpp
     Matrix4x4Tests.cpp
