@@ -35,3 +35,4 @@ build/
 googletest/*
 .vscode/
 .DS_Store
+vc140.pdb

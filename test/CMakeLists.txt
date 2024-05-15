@@ -10,6 +10,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(Sources
     ArmatureJointTests.cpp
+    ElevationAngleKMTests.cpp
     gcfTests.cpp
     IntervalTests.cpp    
     IntervalPeriodicTests.cpp
