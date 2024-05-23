@@ -26,7 +26,7 @@ include_directories(./include)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})  # Include the binary directory where the export header is generated
 include_directories(./googletest/googlemock/include)
 
-set(Headers 
+set(Headers
     ./include/ArmatureJoint.h
     ./include/ElevationAngleKM.h
     ./include/gcf.h
@@ -35,18 +35,18 @@ set(Headers
     ./include/IntervalPeriodic.h
     ./include/Matrix4x4.h
     ./include/Ray.h
-    ./include/TrackerArmature2A.h 
+    ./include/TrackerArmature2A.h
     ./include/TrackerSolver2A.h
     ./include/TrackerTarget.h
-    ./include/Transform.h          
+    ./include/Transform.h
     ./include/vec2d.h
-    ./include/vec3d.h  
+    ./include/vec3d.h
 )
 
 set(Sources
     ArmatureJoint.cpp
     ElevationAngleKM.cpp
-    gfc.cpp
+    gcf.cpp
     HourAngleKM.cpp
     Interval.cpp
     IntervalPeriodic.cpp
@@ -82,6 +82,6 @@ endif()
 
 include(GenerateExportHeader)
 generate_export_header(${This})
-    
-add_subdirectory(test)   
+
+add_subdirectory(test)
 add_subdirectory(examples)

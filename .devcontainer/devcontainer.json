@@ -1,0 +1,111 @@
+/**
+
+    ----------------------------------------------
+
+    DO NOT USE MLKCTXT TEMPLATING HERE
+
+    ----------------------------------------------
+
+*/
+{
+    "image": "malkab/python:3.11-bullseye",
+    "name": "heliostat_tracking_dev",
+    "workspaceFolder": "/home/git/ssparc/heliostat_tracking/",
+    "runArgs": [
+        "--network=host",
+        "--name=heliostat_tracking_dev"
+        // CUSTOMIZE THIS if any
+        // "--env-file=.devcontainer/assets/devcontainer.env"
+    ],
+    "customizations": {
+        "vscode": {
+            // CUSTOMIZE THIS
+            "extensions": [
+                "charliermarsh.ruff",
+                "GitHub.copilot-chat",
+                "GitHub.copilot",
+                "mhutchie.git-graph",
+                "ms-python.debugpy",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "njpwerner.autodocstring",
+                "tamasfe.even-better-toml",
+                "ms-vscode.cpptools"
+            ]
+        }
+    },
+    // ID here, not user name
+    "remoteUser": "1000",
+    /**
+
+        Variables defined here are available both at the container and
+        at any process spawned by the container's VSC server.
+
+        The sequence of envvars overrides to this point is:
+
+            1. env-file
+            2. containerEnv
+
+        These vars is what would be available for the container.
+
+        Use the patterns:
+
+            "SOMETHING": "A_VALUE"
+            "SOMETHING": "${localEnv:MLK_GIT_HOME}"
+
+        ${containerEnv:XXX} CANNOT be used here, use it at remoteEnv instead.
+
+        This has proven to be a rather temperamental feature, unable to produce
+        the devcontainer when using some ${localEnv:XXX}, but no clear pattern
+        arise. In case of failure to produce the devcontainer, test here first.
+
+        PYTHONPATH: in the case of having multiple Python projects in the same
+        repo, don't forget to add the path to each source code unit to the
+        PYTHONPATH.
+
+    */
+    "containerEnv": {
+        // THIS IS MANDATORY AND MUST REMAIN
+        // "PYTHONPATH": "/home/git/{{ cookiecutter.git_family }}/{{ cookiecutter.project_slug }}/src/",
+        // "BA": "10",
+        // "A": "1",
+        // "SOMETHING": "${localEnv:HOME}:${localEnv:MLK_GIT_HOME}"
+    },
+    /**
+
+        Variables defined here are available only at the process spawned
+        by the container's VSC server, but not at the container itself.
+
+        The sequence of envvars overrides to this point is:
+
+            1. env-file
+            2. containerEnv
+            3. remoteEnv
+
+        These vars is what would be available for the processes spawned by
+        the container's VSC server.
+
+        Use the patterns:
+
+            "SOMETHING": "A_VALUE"
+            "PATH": "${containerEnv:PATH}:/home/user1000/.local/bin222"
+            "SOMETHING": "${localEnv:MLK_GIT_HOME}"
+
+    */
+    "remoteEnv": {
+        // THIS IS MANDATORY AND MUST REMAIN
+        // "PATH": "${containerEnv:PATH}:/home/user{{ cookiecutter.docker_remote_user_id }},/.local/bin",
+        // "BA": "ll",
+        // "B": "j",
+        // "SOMETHING": "${localEnv:HOME}:AAAA"
+    },
+    // To add mounts here:
+    // "type=bind,source=/something,target=/something,readonly"
+    "mounts": [
+        "type=bind,source=${localEnv:HOME}/.mlkctxt,target=/home/user1000/.mlkctxt,readonly",
+        "type=bind,source=${localEnv:HOME}/.gitconfig,target=/home/user1000/.gitconfig,readonly",
+        "type=bind,source=/home/git/ssparc/heliostat_tracking/,target=/home/git/ssparc/heliostat_tracking/"
+    ],
+    "postCreateCommand": "bash -c \"./.devcontainer/assets/post_install.sh\"",
+    "postStartCommand": "bash -c \"echo postStartCommand\""
+}
