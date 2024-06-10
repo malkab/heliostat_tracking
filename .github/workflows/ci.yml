@@ -22,7 +22,7 @@ jobs:
         run:  git clone https://github.com/google/googletest.git googletest
 
       - name: Set up Python
-        uses: actions/setup-python@v4.7.0
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: '3.12.2'
 
@@ -59,7 +59,7 @@ jobs:
         run: git clone https://github.com/google/googletest.git googletest
 
       - name: Set up Python
-        uses: actions/setup-python@v4.7.0
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: '3.12.2'
 
@@ -106,7 +106,7 @@ jobs:
           make
 
       - name: Set up Python
-        uses: actions/setup-python@v4.7.0
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: '3.12.2'
 
