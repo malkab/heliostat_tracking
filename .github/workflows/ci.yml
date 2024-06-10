@@ -20,6 +20,14 @@ jobs:
 
       - name: Clone Google Test
         run:  git clone https://github.com/google/googletest.git googletest
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.2'
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip setuptools wheel cmake pybind11 pytest        
         
       - name: Create Build Environment
         run: cmake -E make_directory ${{github.workspace}}/build
@@ -49,6 +57,14 @@ jobs:
       
       - name: Clone Google Test
         run: git clone https://github.com/google/googletest.git googletest
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.2'
+
+      - name: Install Python dependencies for building
+        run: python -m pip install --upgrade pip setuptools wheel pybind11        
         
       - name: Create Build Environment
         run: cmake -E make_directory ${{github.workspace}}/build
@@ -88,6 +104,14 @@ jobs:
           cd build
           cmake ..
           make
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.2'
+
+      - name: Install Python dependencies for building
+        run: python3 -m pip install --upgrade pip setuptools wheel pybind11
           
       - name: Create Build Environment
         run: cmake -E make_directory ${{ github.workspace }}/build
