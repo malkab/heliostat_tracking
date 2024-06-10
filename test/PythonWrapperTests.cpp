@@ -16,8 +16,11 @@ protected:
     py::module heliostat_tracking_module;
 
     void SetUp() override {
+        py::module sys = py::module::import("sys");
+        sys.attr("path").attr("append")("${CMAKE_CURRENT_BINARY_DIR}");
         heliostat_tracking_module = py::module::import("heliostat_tracking_module");
     }
+
 };
 
 // Helper functions
