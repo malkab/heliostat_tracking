@@ -8,6 +8,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Ensure pybind11 is found
+find_package(pybind11 CONFIG REQUIRED)
+
 set(Sources
     ArmatureJointTests.cpp
     ElevationAngleKMTests.cpp
@@ -24,6 +27,11 @@ set(Sources
     vec3dTests.cpp
 )
 
+# Conditionally add PythonWrapperTests if Python wrappers are enabled
+if(PYTHON_WRAPPER_ENABLED)
+    list(APPEND Sources PythonWrapperTests.cpp)
+endif()
+
 add_executable(${This} ${Sources})
 
 target_link_libraries(${This} PUBLIC
@@ -31,6 +39,11 @@ target_link_libraries(${This} PUBLIC
     gmock_main
     heliostat_tracking
 )
+
+# Add pybind11::embed only if Python wrappers are enabled
+if(PYTHON_WRAPPER_ENABLED)
+    target_link_libraries(${This} PUBLIC pybind11::embed)
+endif()
 
 add_test(
     NAME ${This}

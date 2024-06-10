@@ -27,20 +27,17 @@ convertMatrix(const std::vector<std::vector<double>>& matrix) {
 
 PYBIND11_MODULE(heliostat_tracking_module, m) {
     py::class_<vec3d>(m, "vec3d")
-        .def(py::init<>())
         .def(py::init<double, double, double>())
         .def_readwrite("x", &vec3d::x)
         .def_readwrite("y", &vec3d::y)
         .def_readwrite("z", &vec3d::z);
 
     py::class_<vec2d>(m, "vec2d")
-        .def(py::init<>())
         .def(py::init<double, double>())
         .def_readwrite("x", &vec2d::x)
         .def_readwrite("y", &vec2d::y);
 
     py::class_<Transform>(m, "Transform")
-        .def(py::init<>())
         .def(py::init<
             double, double, double, double,
             double, double, double, double,

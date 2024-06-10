@@ -19,6 +19,8 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 enable_testing()
+
+# Add subdirectory for Google Test
 add_subdirectory(googletest)
 
 include_directories(./include)
@@ -80,29 +82,40 @@ else()
 endif()
 
 # Search for pybind11 and set up Python wrapper
+set(PYTHON_WRAPPER_ENABLED FALSE)
 find_package(Python COMPONENTS Interpreter Development REQUIRED)
 if (Python_FOUND)
-    message(STATUS "Found Python interpreter at: ${Python_EXECUTABLE}")
+    message(STATUS "Found Python interpreter at: ${Python_EXECUTABLE}")   
 
     execute_process(
-        COMMAND ${Python_EXECUTABLE} -m pybind11 --cmake
-        OUTPUT_VARIABLE pybind11_DIR
-        ERROR_VARIABLE error
-        RESULT_VARIABLE result
+        COMMAND ${Python_EXECUTABLE} -c "import pybind11; print(pybind11.get_include())"
+        OUTPUT_VARIABLE PYBIND11_INCLUDE_DIR
         OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_STRIP_TRAILING_WHITESPACE
     )
 
-    if (result EQUAL 0 AND EXISTS "${pybind11_DIR}/pybind11Config.cmake")
-        message(STATUS "Found pybind11 at: ${pybind11_DIR}")
-        list(APPEND CMAKE_PREFIX_PATH ${pybind11_DIR})
-        find_package(pybind11 CONFIG REQUIRED)
-        include_directories(${Python_INCLUDE_DIRS})
-        link_directories(${Python_LIBRARY_DIRS})
-        pybind11_add_module(heliostat_tracking_module PythonWrapper.cpp)
-        target_link_libraries(heliostat_tracking_module PRIVATE ${This})
+    if (PYBIND11_INCLUDE_DIR AND EXISTS "${PYBIND11_INCLUDE_DIR}/pybind11/embed.h")
+        message(STATUS "Found pybind11 include directory: ${PYBIND11_INCLUDE_DIR}")
+        include_directories(${PYBIND11_INCLUDE_DIR})
+        execute_process(
+            COMMAND ${Python_EXECUTABLE} -m pybind11 --cmake
+            OUTPUT_VARIABLE pybind11_DIR
+            ERROR_VARIABLE error
+            RESULT_VARIABLE result
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_STRIP_TRAILING_WHITESPACE
+        )
+        if (result EQUAL 0 AND EXISTS "${pybind11_DIR}/pybind11Config.cmake")
+            message(STATUS "Found pybind11 at: ${pybind11_DIR}")
+            list(APPEND CMAKE_PREFIX_PATH ${pybind11_DIR})
+            find_package(pybind11 CONFIG REQUIRED)
+            pybind11_add_module(heliostat_tracking_module PythonWrapper.cpp)
+            target_link_libraries(heliostat_tracking_module PRIVATE ${This})
+            set(PYTHON_WRAPPER_ENABLED TRUE)
+        else()
+            message(WARNING "pybind11 not found. Error: ${error}")
+        endif()
     else()
-        message(STATUS "pybind11 not found. Error: ${error}")
+        message(WARNING "pybind11 include directory not found.")
     endif()
 else()
     message(STATUS "Python not found. Not generating Python wrappers.")
