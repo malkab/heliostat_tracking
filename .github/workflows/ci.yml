@@ -75,6 +75,9 @@ jobs:
         
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{ matrix.configuration }}
+
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=${{ github.workspace }}/build:${PYTHONPATH}" >> $GITHUB_ENV
         
       - name: Run Tests
         run: ${{github.workspace}}/build/${{ matrix.configuration }}/heliostat_tracking_tests
@@ -122,6 +125,9 @@ jobs:
         
       - name: Build
         run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.configuration }}
+
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=${{ github.workspace }}/build:${PYTHONPATH}" >> $GITHUB_ENV
         
       - name: Run Tests
         run: ${{ github.workspace }}/build/${{ matrix.configuration }}/heliostat_tracking_tests
