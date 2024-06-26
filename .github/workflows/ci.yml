@@ -124,6 +124,9 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory ${{ github.workspace }}/build
 
+      - name: List Source Directory
+        run: ls -lR ${{ github.workspace }}/examples/bluesolar_points
+
       - name: Configure CMake Linux
         run: cmake ${{ github.workspace }} -B ${{ github.workspace }}/build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DPYTHON_EXECUTABLE=${{ env.pythonLocation }}/python3
         
@@ -144,4 +147,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-${{ matrix.configuration }}-linux
-          path: ${{ github.workspace }}/build/${{ matrix.configuration }}
+          path: ${{github.workspace}}/build/${{ matrix.configuration }}
