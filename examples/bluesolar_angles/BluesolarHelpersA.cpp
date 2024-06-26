@@ -7,14 +7,14 @@
 #include "Transform.h"
 #include "ElevationAngleKM.h"
 #include "HourAngleKM.h"
-#include "BlueSolarPointsHelpers.h"
+#include "BluesolarHelpers.h"
 
 bool ConvertAndValidateArguments(int argc, char* argv[], 
                                  double& xHeliostat, double& yHeliostat, double& zHeliostat, 
-                                 double& sunAzimuth, double& sunElevation, double& yTarget,
-                                 double& lengthElevationActuator, double& lengthHourAngleActuator) {
+                                 double& xAimingPoint, double& yAimingPoint, double& zAimingPoint, 
+                                 double& sunAzimuth, double& sunElevation) {
     if (argc != 9) {
-        std::cerr << "Usage: " << argv[0] << " xHeliostat yHeliostat zHeliostat sunAzimuth sunElevation yTarget lengthElevationActuator lengthHourAngleActuator" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " xHeliostat yHeliostat zHeliostat xAimingPoint yAimingPoint zAimingPoint sunAzimuth sunElevation" << std::endl;
         return false;
     }
 
@@ -25,15 +25,15 @@ bool ConvertAndValidateArguments(int argc, char* argv[],
     if (end == argv[2]) { std::cerr << "Invalid argument: " << argv[2] << std::endl; return false; }
     zHeliostat = std::strtod(argv[3], &end);
     if (end == argv[3]) { std::cerr << "Invalid argument: " << argv[3] << std::endl; return false; }
-    sunAzimuth = std::strtod(argv[4], &end);
+    xAimingPoint = std::strtod(argv[4], &end);
     if (end == argv[4]) { std::cerr << "Invalid argument: " << argv[4] << std::endl; return false; }
-    sunElevation = std::strtod(argv[5], &end);
+    yAimingPoint = std::strtod(argv[5], &end);
     if (end == argv[5]) { std::cerr << "Invalid argument: " << argv[5] << std::endl; return false; }
-    yTarget = std::strtod(argv[6], &end);
+    zAimingPoint = std::strtod(argv[6], &end);
     if (end == argv[6]) { std::cerr << "Invalid argument: " << argv[6] << std::endl; return false; }
-    lengthElevationActuator = std::strtod(argv[7], &end);
+    sunAzimuth = std::strtod(argv[7], &end);
     if (end == argv[7]) { std::cerr << "Invalid argument: " << argv[7] << std::endl; return false; }
-    lengthHourAngleActuator = std::strtod(argv[8], &end);
+    sunElevation = std::strtod(argv[8], &end);
     if (end == argv[8]) { std::cerr << "Invalid argument: " << argv[8] << std::endl; return false; }
 
     return true;
