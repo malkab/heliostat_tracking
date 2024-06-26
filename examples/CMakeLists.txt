@@ -9,7 +9,7 @@ add_executable(azimuth_elevation azimuth_elevation/main1.cpp)
 target_link_libraries(azimuth_elevation PRIVATE ${This})
 
 # Bluesolar Angles
-add_executable(bluesolar_angles bluesolar_angles/main2.cpp bluesolar_angles/BluesolarHelpers.cpp)
+add_executable(bluesolar_angles bluesolar_angles/main2.cpp bluesolar_angles/BlueSolarHelpers.cpp)
 target_include_directories(bluesolar_angles PRIVATE 
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/examples/bluesolar_angles
@@ -17,7 +17,7 @@ target_include_directories(bluesolar_angles PRIVATE
 target_link_libraries(bluesolar_angles PRIVATE ${This})
 
 # Bluesolar Points
-add_executable(bluesolar_points bluesolar_points/main3.cpp bluesolar_points/BluesolarPointsHelpers.cpp)
+add_executable(bluesolar_points bluesolar_points/main3.cpp bluesolar_points/BlueSolarPointsHelpers.cpp)
 target_include_directories(bluesolar_points PRIVATE 
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/examples/bluesolar_points
