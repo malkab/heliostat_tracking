@@ -20,10 +20,10 @@ target_link_libraries(bluesolar_angles PRIVATE ${This})
 add_executable(heliostat_studio heliostat_studio/main3.cpp)
 target_link_libraries(heliostat_studio PRIVATE ${This})
 
-# Bluesolar Aiming Point example
-add_executable(bluesolar_aiming_point bluesolar_aiming_point/main.cpp bluesolar_aiming_point/BluesolarAimingPointHelpers.cpp)
-target_include_directories(bluesolar_aiming_point PRIVATE 
+# Bluesolar Points example
+add_executable(bluesolar_points bluesolar_points/main.cpp bluesolar_points/BluesolarPointsHelpers.cpp)
+target_include_directories(bluesolar_points PRIVATE 
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/examples/bluesolar_aiming_point
+    ${CMAKE_SOURCE_DIR}/examples/bluesolar_points
 )
-target_link_libraries(bluesolar_aiming_point PRIVATE ${This})
+target_link_libraries(bluesolar_points PRIVATE ${This})
