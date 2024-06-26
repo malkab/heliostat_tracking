@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "ElevationAngleKM.h"
 #include "HourAngleKM.h"
+#include "BlueSolarPointsHelpers.h"
 
 bool ConvertAndValidateArguments(int argc, char* argv[], 
                                  double& xHeliostat, double& yHeliostat, double& zHeliostat, 

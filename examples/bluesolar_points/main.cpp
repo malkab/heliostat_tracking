@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "ElevationAngleKM.h"
 #include "HourAngleKM.h"
-#include "BlueSolarAimingPointHelpers.h"
+#include "BlueSolarPointsHelpers.h"
 
 int main(int argc, char *argv[])
 {
