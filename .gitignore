@@ -36,3 +36,4 @@ googletest/*
 .vscode/
 .DS_Store
 vc140.pdb
+examples/bluesolar_angles_python/__pycache__/BluesolarHelpers.cpython-312.pyc
