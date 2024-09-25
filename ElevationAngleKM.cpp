@@ -8,9 +8,9 @@ double ElevationAngleKM::getActuatorLengthFromElevationAngle(double elevation_an
     double term1 = m_rab * m_rab;
     double term2 = m_rad * m_rad;
     double term3 = m_rbc * m_rbc;
-    double term4 = 2.0 * m_rab * m_rad * std::cos(elevation_angle - m_alpha2 + m_gamma);
+    double term4 = 2.0 * m_rab * m_rad * std::cos(elevation_angle - m_alpha2 - m_gamma);
 
-    return std::sqrt(term1 + term2 - term3 + term4);
+    return std::sqrt(term1 + term2 - term3 - term4);
 }
 
 // Implementation of the function that calculates elevation angle from actuator length

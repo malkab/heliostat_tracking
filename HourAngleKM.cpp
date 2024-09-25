@@ -8,7 +8,7 @@ double HourAngleKM::getActuatorLengthFromHourAngle(double hour_angle) const
     double term1 = m_rab * m_rab;
     double term2 = m_rad * m_rad;
     double term3 = m_rbc * m_rbc;
-    double term4 = 2.0 * m_rab * m_rad * std::sin(hour_angle + m_gamma);
+    double term4 = 2.0 * m_rab * m_rad * std::sin(m_gamma-hour_angle);
 
     return std::sqrt(term1 + term2 - term3 - term4);
 }

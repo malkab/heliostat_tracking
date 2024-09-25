@@ -6,14 +6,13 @@
 class ElevationAngleKMTest : public ::testing::Test {  
 protected:
     void SetUp() override {
-        double gamma = 90.75 * gcf::degree; // radians
-        double rab = 0.39254; // meters
-        double rbc = 0.0465; // meters
-        double rad = 0.43061; // meters
-        double ra = 0.082; // meters
-        double rd = 0.045; // meters
+        double gamma = 1.499539835163685; // radians
+        double rab = 0.38228347073744173; // meters
+        double rbc = 0.0396; // meters
+        double rad = 0.4146341554709371; // meters
+        double alpha2 = 0.0848055; // meters
 
-        m_pElevationAngleKM = new ElevationAngleKM(gamma, rab, rbc, rad, ra, rd);
+        m_pElevationAngleKM = new ElevationAngleKM(gamma, rab, rbc, rad, alpha2);
     }
 
     void TearDown() override {
@@ -24,17 +23,16 @@ protected:
 };
 
 TEST_F(ElevationAngleKMTest, ConstructorInitialization) {
-    EXPECT_EQ(m_pElevationAngleKM->get_gamma(), 90.75 * gcf::degree);
-    EXPECT_EQ(m_pElevationAngleKM->get_rab(), 0.39254);
-    EXPECT_EQ(m_pElevationAngleKM->get_rbc(),  0.0465);
-    EXPECT_EQ(m_pElevationAngleKM->get_rad(), 0.43061);
-    EXPECT_EQ(m_pElevationAngleKM->get_ra(), 0.082);
-    EXPECT_EQ(m_pElevationAngleKM->get_rd(), 0.045);
+    EXPECT_EQ(m_pElevationAngleKM->get_gamma(), 1.499539835163685);
+    EXPECT_EQ(m_pElevationAngleKM->get_rab(), 0.38228347073744173);
+    EXPECT_EQ(m_pElevationAngleKM->get_rbc(),  0.0396);
+    EXPECT_EQ(m_pElevationAngleKM->get_rad(), 0.4146341554709371);
+    EXPECT_EQ(m_pElevationAngleKM->get_alpha2(), 0.0848055);
 }
 
 // Tests for setter functions
 TEST_F(ElevationAngleKMTest, SetGamma) {
-    double gamma = 82.0 * gcf::degree; // radians
+    double gamma = 1.499539835163685; // radians
     m_pElevationAngleKM->set_gamma(gamma);
     EXPECT_EQ(m_pElevationAngleKM->get_gamma(), gamma);
 }
@@ -57,27 +55,22 @@ TEST_F(ElevationAngleKMTest, SetRad) {
     EXPECT_EQ(m_pElevationAngleKM->get_rad(), rad);
 }
 
-TEST_F(ElevationAngleKMTest, SetRa) {
-    double ra = 0.51; // meters
-    m_pElevationAngleKM->set_ra(ra);
-    EXPECT_EQ(m_pElevationAngleKM->get_ra(), ra);
+TEST_F(ElevationAngleKMTest, SetAlpha2) {
+    double alpha2 = 0.08480554835440447; // meters
+    m_pElevationAngleKM->set_alpha2(alpha2);
+    EXPECT_EQ(m_pElevationAngleKM->get_alpha2(), alpha2);
 }
 
-TEST_F(ElevationAngleKMTest, SetRd) {
-    double rd = 0.038; // meters
-    m_pElevationAngleKM->set_rd(rd);
-    EXPECT_EQ(m_pElevationAngleKM->get_rd(), rd);
-}
 
 // Tests for calculation functions
 TEST_F(ElevationAngleKMTest, GetActuatorLengthFromElevationAngle) {
-    double elevation_angle = 40.0 * gcf::degree; // radians
+    double elevation_angle = 40.1 * gcf::degree; // radians
     double expected_actuator_length = m_pElevationAngleKM->getActuatorLengthFromElevationAngle(elevation_angle);
     EXPECT_NEAR(expected_actuator_length, 0.3734944549994152, 0.001);
 }
 
 TEST_F(ElevationAngleKMTest, GetElevationAngleFromActuatorLength) {
-    double actuator_length = 0.3734944549994152;
+    double actuator_length = 0.3403445;
     double expected_elevation_angle = m_pElevationAngleKM->getElevationAngleFromActuatorLength(actuator_length);
-    EXPECT_NEAR(expected_elevation_angle, 40.0 * gcf::degree, 0.001);
+    EXPECT_NEAR(expected_elevation_angle, 40.1 * gcf::degree, 0.001);
 }
