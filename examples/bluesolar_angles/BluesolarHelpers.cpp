@@ -60,14 +60,14 @@ ElevationAngleKM CreateBluesolarElevationAngleKM() {
     double rab = 0.38228347073744173; // meters
     double rbc = 0.0396; // meters
     double rad = 0.4146341554709371; // meters
-    double alpha2 = 0.0848055; // meters
+    double alpha2 = 0.08480554835440447; // meters
     return ElevationAngleKM(gamma, rab, rbc, rad, alpha2);
 }
 
 HourAngleKM CreateBluesolarHourAngleKM() {
-    double gamma = 0.6388177306290322; // radians
-    double rab = 0.3478082527197903; // meters
+    double gamma = 0.6388776401148127; // radians
+    double rab = 0.34805695317203444; // meters
     double rbc = 0.04225; // meters
-    double rad = 0.33851665380801116; // meters
+    double rad = 0.33827680301912516; // meters
     return HourAngleKM(gamma, rab, rbc, rad);
 }

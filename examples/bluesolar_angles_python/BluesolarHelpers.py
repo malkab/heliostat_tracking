@@ -41,17 +41,16 @@ def bluesolar_heliostat_armature(armature_id):
     ht.set_angles_default(armature_id, 0.0, 0.0)
 
 def create_bluesolar_elevation_angle_km():
-    gamma = radians(90.75)  # Convert to radians
-    rab = 0.39254
-    rbc = 0.0465
-    rad = 0.43061
-    ra = 0.082
-    rd = 0.045
-    return ht.ElevationAngleKM(gamma, rab, rbc, rad, ra, rd)
+    gamma = 1.499539835163685  # Convert to radians
+    rab = 0.38228347073744173
+    rbc = 0.0396
+    rad = 0.4146341554709371
+    alpha2 = 0.08480554835440447
+    return ht.ElevationAngleKM(gamma, rab, rbc, rad, alpha2)
 
 def create_bluesolar_hour_angle_km():
-    gamma = radians(22.0)  # Convert to radians
-    rab = 0.35033
-    rbc = 0.0465
-    rad = 0.36527
+    gamma = 0.6388776401148127  # Convert to radians
+    rab = 0.34805695317203444
+    rbc = 0.04225
+    rad = 0.33827680301912516
     return ht.HourAngleKM(gamma, rab, rbc, rad)
