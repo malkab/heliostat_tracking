@@ -29,5 +29,5 @@ double HourAngleKM::getHourAngleFromActuatorLength(double actuator_length) const
         return std::numeric_limits<double>::quiet_NaN();
     }
 
-    return -m_gamma + std::asin(sin_arg);
+    return m_gamma - std::asin(sin_arg);
 }
