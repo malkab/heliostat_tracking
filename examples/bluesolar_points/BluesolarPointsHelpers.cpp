@@ -56,18 +56,20 @@ void BluesolarHeliostatArmature(TrackerArmature2A& armature)
 }
 
 ElevationAngleKM CreateBluesolarElevationAngleKM() {
-    double gamma = 1.499539835163685; // radians
-    double rab = 0.38228347073744173; // meters
-    double rbc = 0.0396; // meters
-    double rad = 0.4146341554709371; // meters
-    double alpha2 = 0.08480554835440447; // meters
-    return ElevationAngleKM(gamma, rab, rbc, rad, alpha2);
+    double gamma = 1.5566945190927768; // radians  
+    double rab = 0.3679941188052566; // meters  
+    double rbc = 0.08587871211683747; // meters
+    double rad = 0.45469491923653677; // meters      
+    double alpha2 = 0.08155204289894769; // radians
+    double offset = 0.04037; // meters
+    return ElevationAngleKM(gamma, rab, rbc, rad, alpha2, offset);
 }
 
 HourAngleKM CreateBluesolarHourAngleKM() {
-    double gamma = 0.6388776401148127; // radians
-    double rab = 0.34805695317203444; // meters
-    double rbc = 0.04225; // meters
-    double rad = 0.33827680301912516; // meters
-    return HourAngleKM(gamma, rab, rbc, rad);
+    double gamma = 0.543717625543648; // radians
+    double rab = 0.3716059721933388; // meters
+    double rbc = 0.05209218963038278; // meters    
+    double rad = 0.3390154085801952; // meters    
+    double offset = 0.04037; // meters    
+    return HourAngleKM(gamma, rab, rbc, rad, offset);
 }

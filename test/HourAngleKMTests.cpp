@@ -6,12 +6,13 @@
 class HourAngleKMTests : public ::testing::Test {  
 protected:
     void SetUp() override {
-        double gamma = 0.6388776401148127; // radians
-        double rab = 0.34805695317203444; // meters
-        double rbc = 0.04225; // meters
-        double rad = 0.33827680301912516; // meters
+        double gamma = 0.543717625543648; // radians
+        double rab = 0.3716059721933388; // meters
+        double rbc = 0.05209218963038278; // meters    
+        double rad = 0.3390154085801952; // meters    
+        double offset = 0.04037; // meters
 
-        m_pHourAngleKM = new HourAngleKM(gamma, rab, rbc, rad);
+        m_pHourAngleKM = new HourAngleKM(gamma, rab, rbc, rad, offset);
     }
 
     void TearDown() override {

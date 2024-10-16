@@ -6,13 +6,14 @@
 class ElevationAngleKMTest : public ::testing::Test {  
 protected:
     void SetUp() override {
-        double gamma = 1.499539835163685; // radians
-        double rab = 0.38228347073744173; // meters
-        double rbc = 0.0396; // meters
-        double rad = 0.4146341554709371; // meters
-        double alpha2 = 0.0848055; // meters
+        double gamma = 1.5566945190927768; // radians  
+        double rab = 0.3679941188052566; // meters  
+        double rbc = 0.08587871211683747; // meters
+        double rad = 0.45469491923653677; // meters      
+        double alpha2 = 0.08155204289894769; // radians
+        double offset = 0.04037; // meters
 
-        m_pElevationAngleKM = new ElevationAngleKM(gamma, rab, rbc, rad, alpha2);
+        m_pElevationAngleKM = new ElevationAngleKM(gamma, rab, rbc, rad, alpha2, offset);
     }
 
     void TearDown() override {
