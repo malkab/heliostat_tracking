@@ -17,7 +17,7 @@ class HELIOSTAT_TRACKING_EXPORT ElevationAngleKM
         double get_rbc() const { return m_rbc; }
         double get_rad() const { return m_rad; }
         double get_alpha2() const { return m_alpha2; }
-        double get_offset(double offset) { return m_offset; }
+        double get_offset() { return m_offset; }
 
         // Setter functions
         void set_gamma(double gamma) { m_gamma = gamma; }

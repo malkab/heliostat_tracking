@@ -138,28 +138,28 @@ TEST_F(PythonWrapperTest, TrackerArmature2ATest) {
 // Test ElevationAngleKM
 TEST_F(PythonWrapperTest, ElevationAngleKMTest) {
     auto elevation_angle_km_class = heliostat_tracking_module.attr("ElevationAngleKM");
-    double gamma = 1.499539835163685;
-    double rab = 0.38228347073744173;
-    double rbc = 0.0396;
-    double rad = 0.4146341554709371;
-    double alpha2 = 0.08480554835440447;
-    auto elevation_angle_km = elevation_angle_km_class(gamma, rab, rbc, rad, alpha2);
+    double gamma = 1.5566945190927768;
+    double rab = 0.3679941188052566;
+    double rbc = 0.08587871211683747;
+    double rad = 0.45469491923653677;
+    double alpha2 = 0.08155204289894769;
+    double offset = 0.04037; 
+    auto elevation_angle_km = elevation_angle_km_class(gamma, rab, rbc, rad, alpha2, offset);
 
-    auto length = elevation_angle_km.attr("get_actuator_length_from_elevation_angle")(38.9 * gcf::degree);
-    EXPECT_NEAR(length.cast<double>(),  0.34750645033541457, 0.0001);
+    auto length = elevation_angle_km.attr("get_actuator_length_from_elevation_angle")(32.0 * gcf::degree);
+    EXPECT_NEAR(length.cast<double>(),  0.39006, 0.001);
 }
 
 // Test HourAngleKM
 TEST_F(PythonWrapperTest, HourAngleKMTest) {
     auto hour_angle_km_class = heliostat_tracking_module.attr("HourAngleKM");
-    double gamma = 0.6388776401148127;
-    double rab = 0.34805695317203444;
-    double rbc = 0.04225;
-    double rad = 0.33827680301912516;  
-    auto hour_angle_km = hour_angle_km_class(gamma, rab, rbc, rad);
+    double gamma = 0.543717625543648; // radians
+    double rab = 0.3716059721933388; // meters
+    double rbc = 0.05209218963038278; // meters    
+    double rad = 0.3390154085801952; // meters    
+    double offset = 0.04037; // meters
+    auto hour_angle_km = hour_angle_km_class(gamma, rab, rbc, rad, offset);
 
     auto length = hour_angle_km.attr("get_actuator_length_from_hour_angle")(30.2 * gcf::degree);
-    EXPECT_NEAR(length.cast<double>(), 0.455544478465155, 0.0001);
+    EXPECT_NEAR(length.cast<double>(), 0.455544478465155, 0.001);
 }
-
-

@@ -35,5 +35,5 @@ double ElevationAngleKM::getElevationAngleFromActuatorLength(double actuator_len
         return std::numeric_limits<double>::quiet_NaN();
     }
 
-    return  m_alpha2 - m_gamma - std::acos(cos_arg);
+    return  m_alpha2 - m_gamma + std::acos(cos_arg);
 }

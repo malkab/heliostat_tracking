@@ -24,24 +24,25 @@ protected:
 };
 
 TEST_F(ElevationAngleKMTest, ConstructorInitialization) {
-    EXPECT_EQ(m_pElevationAngleKM->get_gamma(), 1.499539835163685);
-    EXPECT_EQ(m_pElevationAngleKM->get_rab(), 0.38228347073744173);
-    EXPECT_EQ(m_pElevationAngleKM->get_rbc(),  0.0396);
-    EXPECT_EQ(m_pElevationAngleKM->get_rad(), 0.4146341554709371);
-    EXPECT_EQ(m_pElevationAngleKM->get_alpha2(), 0.0848055);
+    EXPECT_EQ(m_pElevationAngleKM->get_gamma(), 1.5566945190927768);
+    EXPECT_EQ(m_pElevationAngleKM->get_rab(), 0.3679941188052566);
+    EXPECT_EQ(m_pElevationAngleKM->get_rbc(),  0.08587871211683747);
+    EXPECT_EQ(m_pElevationAngleKM->get_rad(), 0.45469491923653677);
+    EXPECT_EQ(m_pElevationAngleKM->get_alpha2(), 0.08155204289894769);
+    EXPECT_EQ(m_pElevationAngleKM->get_offset(), 0.04037);
 }
 
 // Tests for calculation functions
 TEST_F(ElevationAngleKMTest, GetActuatorLengthFromElevationAngle) {
-    double elevation_angle = 38.9 * gcf::degree; // radians
+    double elevation_angle = 32.0 * gcf::degree; // radians
     double expected_actuator_length = m_pElevationAngleKM->getActuatorLengthFromElevationAngle(elevation_angle);
-    EXPECT_NEAR(expected_actuator_length, 0.34750645033541457, 0.001);
+    EXPECT_NEAR(expected_actuator_length, 0.39006, 0.001);
 }
 
 TEST_F(ElevationAngleKMTest, GetElevationAngleFromActuatorLength) {
-    double actuator_length = 0.34750645033541457;
+    double actuator_length = 0.39006;
     double expected_elevation_angle = m_pElevationAngleKM->getElevationAngleFromActuatorLength(actuator_length);    
-    EXPECT_NEAR(expected_elevation_angle, 38.9 * gcf::degree, 0.001);
+    EXPECT_NEAR(expected_elevation_angle, 32.0 * gcf::degree, 0.001);
 }
 
 // Tests for setter functions

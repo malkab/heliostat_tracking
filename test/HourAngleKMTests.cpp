@@ -23,10 +23,11 @@ protected:
 };
 
 TEST_F(HourAngleKMTests, ConstructorInitialization) {
-    EXPECT_EQ(m_pHourAngleKM->get_gamma(), 0.6388776401148127);
-    EXPECT_EQ(m_pHourAngleKM->get_rab(), 0.34805695317203444);
-    EXPECT_EQ(m_pHourAngleKM->get_rbc(),  0.04225);
-    EXPECT_EQ(m_pHourAngleKM->get_rad(), 0.33827680301912516);
+    EXPECT_EQ(m_pHourAngleKM->get_gamma(), 0.543717625543648);
+    EXPECT_EQ(m_pHourAngleKM->get_rab(), 0.3716059721933388);
+    EXPECT_EQ(m_pHourAngleKM->get_rbc(),  0.05209218963038278);
+    EXPECT_EQ(m_pHourAngleKM->get_rad(), 0.3390154085801952);
+    EXPECT_EQ(m_pHourAngleKM->get_offset(), 0.04037);
 }
 
 // Tests for calculation functions
