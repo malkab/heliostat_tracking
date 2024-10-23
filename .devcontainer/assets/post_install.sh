@@ -25,8 +25,8 @@ sudo cp -r .devcontainer/assets/cmake-3.29.3/Modules/* /usr/share/cmake-3.29/Mod
 # sudo rm -rf /var/lib/apt/lists/*
 
 # PIP installs and upgrade
-# /usr/local/bin/python3 -m pip install --upgrade --break-system-packages \
-#     pybind11[global]
+/usr/local/bin/python3 -m pip install --upgrade --break-system-packages \
+    pybind11[global]
 
 # # Install Wheels packages
 # /usr/local/bin/python3 -m pip install \

@@ -10,7 +10,7 @@
 {
     "image": "malkab/python:3.11-bullseye",
     "name": "heliostat_tracking_dev",
-    "workspaceFolder": "/home/git/ssparc/heliostat_tracking/",
+    "workspaceFolder": "/home/git/ssparc_bluesolar/heliostat_tracking/",
     "runArgs": [
         "--network=host",
         "--name=heliostat_tracking_dev"
@@ -102,9 +102,8 @@
     // To add mounts here:
     // "type=bind,source=/something,target=/something,readonly"
     "mounts": [
-        "type=bind,source=${localEnv:HOME}/.mlkctxt,target=/home/user1000/.mlkctxt,readonly",
         "type=bind,source=${localEnv:HOME}/.gitconfig,target=/home/user1000/.gitconfig,readonly",
-        "type=bind,source=/home/git/ssparc/heliostat_tracking/,target=/home/git/ssparc/heliostat_tracking/"
+        "type=bind,source=/home/git/ssparc_bluesolar/heliostat_tracking/,target=/home/git/ssparc_bluesolar/heliostat_tracking/"
     ],
     "postCreateCommand": "bash -c \"./.devcontainer/assets/post_install.sh\"",
     "postStartCommand": "bash -c \"echo postStartCommand\""
