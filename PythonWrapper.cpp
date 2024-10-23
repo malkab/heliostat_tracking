@@ -76,7 +76,7 @@ PYBIND11_MODULE(heliostat_tracking_module, m) {
         .def("set_default_angles", &TrackerArmature2A::set_anglesDefault);
 
     py::class_<ElevationAngleKM>(m, "ElevationAngleKM")
-        .def(py::init<double, double, double, double, double, double>())
+        .def(py::init<double, double, double, double, double>())
         .def("get_actuator_length_from_elevation_angle", &ElevationAngleKM::getActuatorLengthFromElevationAngle)
         .def("get_elevation_angle_from_actuator_length", &ElevationAngleKM::getElevationAngleFromActuatorLength);
 

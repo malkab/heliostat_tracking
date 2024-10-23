@@ -6,10 +6,10 @@
 class HourAngleKMTests : public ::testing::Test {  
 protected:
     void SetUp() override {
-        double gamma = 22.0 * gcf::degree; // radians
-        double rab = 0.35033; // meters
-        double rbc = 0.0465; // meters
-        double rad = 0.36527; // meters
+        double gamma = 0.6388776401148127; // radians
+        double rab = 0.34805695317203444; // meters
+        double rbc = 0.04225; // meters
+        double rad = 0.33827680301912516; // meters
 
         m_pHourAngleKM = new HourAngleKM(gamma, rab, rbc, rad);
     }
@@ -22,10 +22,23 @@ protected:
 };
 
 TEST_F(HourAngleKMTests, ConstructorInitialization) {
-    EXPECT_EQ(m_pHourAngleKM->get_gamma(), 22.0 * gcf::degree);
-    EXPECT_EQ(m_pHourAngleKM->get_rab(), 0.35033);
-    EXPECT_EQ(m_pHourAngleKM->get_rbc(),  0.0465);
-    EXPECT_EQ(m_pHourAngleKM->get_rad(), 0.36527);
+    EXPECT_EQ(m_pHourAngleKM->get_gamma(), 0.6388776401148127);
+    EXPECT_EQ(m_pHourAngleKM->get_rab(), 0.34805695317203444);
+    EXPECT_EQ(m_pHourAngleKM->get_rbc(),  0.04225);
+    EXPECT_EQ(m_pHourAngleKM->get_rad(), 0.33827680301912516);
+}
+
+// Tests for calculation functions
+TEST_F(HourAngleKMTests, GetActuatorLengthFromHourAngle) {
+    double hour_angle = 30.2 * gcf::degree; // radians
+    double expected_actuator_length = m_pHourAngleKM->getActuatorLengthFromHourAngle(hour_angle);
+    EXPECT_NEAR(expected_actuator_length, 0.455544478465155, 0.001);
+}
+
+TEST_F(HourAngleKMTests, GetHourAngleFromActuatorLength) {
+    double actuator_length = 0.455544478465155;
+    double expected_hour_angle = m_pHourAngleKM->getHourAngleFromActuatorLength(actuator_length);
+    EXPECT_NEAR(expected_hour_angle, 30.2 * gcf::degree, 0.001);
 }
 
 // Tests for setter functions
@@ -51,17 +64,4 @@ TEST_F(HourAngleKMTests, SetRad) {
     double rad = 0.630; // meters
     m_pHourAngleKM->set_rad(rad);
     EXPECT_EQ(m_pHourAngleKM->get_rad(), rad);
-}
-
-// Tests for calculation functions
-TEST_F(HourAngleKMTests, GetActuatorLengthFromHourAngle) {
-    double hour_angle = 0.0 * gcf::degree; // radians
-    double expected_actuator_length = m_pHourAngleKM->getActuatorLengthFromHourAngle(hour_angle);
-    EXPECT_NEAR(expected_actuator_length, 0.3976404620418174, 0.001);
-}
-
-TEST_F(HourAngleKMTests, GetHourAngleFromActuatorLength) {
-    double actuator_length = 0.3976404620418174;
-    double expected_hour_angle = m_pHourAngleKM->getHourAngleFromActuatorLength(actuator_length);
-    EXPECT_NEAR(expected_hour_angle, 0.0 * gcf::degree, 0.001);
 }

@@ -138,29 +138,28 @@ TEST_F(PythonWrapperTest, TrackerArmature2ATest) {
 // Test ElevationAngleKM
 TEST_F(PythonWrapperTest, ElevationAngleKMTest) {
     auto elevation_angle_km_class = heliostat_tracking_module.attr("ElevationAngleKM");
-    double gamma = 90.75 * gcf::degree;
-    double rab = 0.39254;
-    double rbc = 0.0465;
-    double rad = 0.43061;
-    double ra = 0.082;
-    double rd = 0.045;
-    auto elevation_angle_km = elevation_angle_km_class(gamma, rab, rbc, rad, ra, rd);
+    double gamma = 1.499539835163685;
+    double rab = 0.38228347073744173;
+    double rbc = 0.0396;
+    double rad = 0.4146341554709371;
+    double alpha2 = 0.08480554835440447;
+    auto elevation_angle_km = elevation_angle_km_class(gamma, rab, rbc, rad, alpha2);
 
-    auto length = elevation_angle_km.attr("get_actuator_length_from_elevation_angle")(39.95181117155712 * gcf::degree);
-    EXPECT_NEAR(length.cast<double>(),  0.3738030587687042, 0.0001);
+    auto length = elevation_angle_km.attr("get_actuator_length_from_elevation_angle")(38.9 * gcf::degree);
+    EXPECT_NEAR(length.cast<double>(),  0.34750645033541457, 0.0001);
 }
 
 // Test HourAngleKM
 TEST_F(PythonWrapperTest, HourAngleKMTest) {
     auto hour_angle_km_class = heliostat_tracking_module.attr("HourAngleKM");
-    double gamma = 22.0 * gcf::degree;
-    double rab = 0.35033;
-    double rbc = 0.0465;
-    double rad = 0.36527;  
+    double gamma = 0.6388776401148127;
+    double rab = 0.34805695317203444;
+    double rbc = 0.04225;
+    double rad = 0.33827680301912516;  
     auto hour_angle_km = hour_angle_km_class(gamma, rab, rbc, rad);
 
-    auto length = hour_angle_km.attr("get_actuator_length_from_hour_angle")(-1.3854021315850383e-15 * gcf::degree);
-    EXPECT_NEAR(length.cast<double>(), 0.3976404620418174, 0.0001);
+    auto length = hour_angle_km.attr("get_actuator_length_from_hour_angle")(30.2 * gcf::degree);
+    EXPECT_NEAR(length.cast<double>(), 0.455544478465155, 0.0001);
 }
 
 
