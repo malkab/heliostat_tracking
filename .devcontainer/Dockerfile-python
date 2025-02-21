@@ -1,0 +1,23 @@
+FROM python:3.12-devcontainer
+
+LABEL author="Juan Pedro Perez"
+LABEL email="jp.perez.alcantara@gmail.com"
+
+WORKDIR /
+
+USER root
+
+# Actualizar paquetes
+RUN apt-get update && apt-get upgrade -y
+
+# Instalar paquetes adicionales
+RUN apt-get install -y cmake
+
+USER vscode
+
+# Actualizar pip a una versión específica
+# RUN pip install --upgrade pip==xx.xx.xx
+
+# Instalar dependencias Python de proyecto
+ADD assets/requirements.txt /
+RUN pip install --upgrade -r /requirements.txt

@@ -1,0 +1,17 @@
+services:
+  # -------------------
+  #
+  # DevContainer Python.
+  #
+  # -------------------
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile-python
+    image: heliostat_tracking_python
+    container_name: heliostat_tracking_python
+    command: sleep infinity
+
+    # volumes:
+    #   # Por si hay material DVC implicado, para que funcionen los symlinks.
+    #   - /home/malkab/sync_small/dvc/:/home/malkab/sync_small/dvc/
