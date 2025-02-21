@@ -58,11 +58,14 @@ dist:
 	@chmod 755 build/bluesolar_*
 	@cp build/bluesolar_* dist/bin
 	@cp build/libheliostat_tracking.so dist/lib
+	@cp version dist
 
 	@echo "#!/bin/bash" > dist/install.sh
+	@echo "chmod 755 bin/*" >> dist/install.sh
 	@echo "cp bin/bluesolar_angles /usr/local/bin" >> dist/install.sh
 	@echo "cp bin/bluesolar_points /usr/local/bin" >> dist/install.sh
 	@echo "cp lib/libheliostat_tracking.so /usr/local/lib" >> dist/install.sh
+	@echo "ldconfig" >> dist/install.sh
 
 	@chmod 755 dist/install.sh
 
